@@ -1,0 +1,61 @@
+@use "../../../providers/theme/palette";
+// TODO: add close state with label option
+// TODO: maybe remove open state
+.sidebar-item {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  gap: 12px;
+  align-items: center;
+  border-radius: var(--radius-medium);
+  padding: 16px;
+
+  &:not(:disabled) {
+    cursor: pointer;
+  }
+
+
+  &.active {
+    background-color: hsl(var(--secondary-container));
+    color: hsl(var(--on-secondary-container));
+    @include palette.state-layer(var(--on-secondary-container));
+  }
+
+  &:not(.active) {
+    color: hsl(var(--on-surface-variant));
+    @include palette.state-layer(var(--on-surface-variant));
+  }
+
+  //&.close {
+    width: 56px;
+    height: 56px;
+
+    svg {
+    }
+
+    .sidebar-item--label {
+      display: none;
+    }
+  //}
+  //
+  //&.open {
+  //  width: 100%;
+  //  height: 56px;
+  //
+  //  svg {
+  //  }
+  //
+  //  .label {
+  //  }
+  //}
+}
+@container sidebar (width>80px){
+  .sidebar-item{
+    width: 100%;
+
+    .sidebar-item--label{
+      display: block;
+    }
+
+  }
+}
