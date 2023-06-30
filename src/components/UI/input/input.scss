@@ -1,0 +1,254 @@
+@use "../../../providers/theme/palette";
+@use "../../../providers/theme/typography";
+
+.input--wrapper {
+  position         : relative;
+  //width : fit-content;
+  display          : inline-flex;
+  //flex-direction: column;
+  margin-block-end : 20px;
+
+  &[data-support-text]:after {
+    position       : absolute;
+    top            : 52px;
+    content        : attr(data-support-text);
+    padding-inline : 16px;
+    @include typography.bodySmall();
+  }
+
+  &[data-has-error] {
+    &[data-support-text]:after {
+      color : hsl(var(--error));
+    }
+    .input{
+      &.input--outline{
+        outline-color: hsl(var(--error));
+        caret-color: hsl(var(--error));
+
+        &:not(:disabled) {
+          &:hover {
+            outline-color : hsl(var(--error-container));
+          }
+
+          &:focus-visible, &:focus {
+            outline-color : hsl(var(--error));
+          }
+        }
+      }
+    }
+  }
+
+  &:not([data-has-error]) {
+    &[data-support-text]:after {
+      color : hsl(var(--on-surface-variant));
+    }
+    .input{
+      &.input--outline{
+        outline-color: hsl(var(--outline));
+        caret-color: hsl(var(--primary));
+
+        &:not(:disabled) {
+          &:hover {
+            outline-color : hsl(var(--on-surface));
+          }
+
+          &:focus-visible, &:focus {
+            outline-color : hsl(var(--primary));
+          }
+        }
+      }
+    }
+  }
+
+
+  .input {
+
+    &.full-width {
+      width : 100%;
+    }
+
+    &:not(.full-width) {
+      width : 400px;
+    }
+
+    &.input--outline {
+      @include typography.bodyLarge();
+      color         : hsl(var(--on-surface));
+      height        : 48px;
+      outline : {
+        width : 1px;
+        style : solid;
+      };
+      border-width  : 0;
+      border-radius : var(--radius-extra-large);
+      padding       : 8px 20px;
+      //caret-color   : hsl(var(--primary));
+
+      &::placeholder {
+        color : hsl(var(--on-surface-variant));
+      }
+
+      //&[data-support-text]{
+      position      : relative;
+
+      //}
+
+      &:not(:disabled) {
+        &:hover {
+          outline : {
+            width : 1px;
+            style : solid;
+          };
+        }
+
+        &:focus-visible, &:focus {
+          outline : {
+            width : 2px;
+            style : solid;
+          };
+        }
+      }
+
+      &:disabled {
+        outline : {
+          width : 1px;
+          style : solid;
+          color : hsla(var(--on-surface), 12%);
+        };
+        color : hsla(var(--on-surface), 38%);
+      }
+
+    }
+  }
+}
+
+//.input--wrapper {
+//  //@include addFullTheming();
+//  //TODO: add theme
+//  //position : relative;
+//  display               : grid;
+//  grid-template-columns :1fr 400px 1fr;
+//
+//
+//  &:is(.input--wrapper--outline) {
+//
+//    //.input--label {
+//    //  background-color : hsl(var(--primary));
+//    //}
+//
+//    .input--inside-wrapper {
+//      grid-column     : 2/3;
+//      display         : flex;
+//      flex-direction  : column;
+//      align-items     : flex-start;
+//      justify-content : flex-start;
+//      padding         : 4px;
+//      border-radius   : var(--radius-extra-large);
+//      //background-color : aquamarine;
+//
+//      .input {
+//        @include typography.bodyLarge();
+//        color            : hsl(var(--on-surface));
+//        width            : 100%;
+//        height           : 48px;
+//        border   : {
+//          width  : 1px;
+//          style  : solid;
+//          color  : hsl(var(--outline));
+//          radius : var(--radius-extra-large);
+//        };
+//        background-color : antiquewhite;
+//        padding          : 8px 20px;
+//        caret-color      : hsl(var(--primary));
+//        outline          : none;
+//
+//        &::placeholder {
+//          color : hsl(var(--on-surface-variant));
+//        }
+//
+//        &:focus-visible, &:focus {
+//          //border  : {
+//          //  color : hsl(var(--primary));
+//          //}
+//        }
+//
+//        &:disabled {
+//          outline : {
+//            width : 1px;
+//            style : solid;
+//            color : hsla(var(--on-surface), 12%);
+//          };
+//          color : hsla(var(--on-surface), 38%);
+//
+//        }
+//      }
+//
+//      .input--error-message {
+//        color : hsl(var(--on-surface-variant));
+//        @include typography.bodySmall();
+//      }
+//    }
+//  }
+//
+//  &:is(.input--wrapper--shadow) {
+//    height : 3.5rem;
+//    //border-radius : var(--radius-extra-small) var(--radius-extra-small) var(--radius-none) var(--radius-none);
+//
+//    .input--label {
+//      position            : absolute;
+//      transition        : {
+//        duration        : 75ms;
+//        property        : all;
+//        timing-function : linear;
+//      }
+//      letter-spacing      : .03125rem;
+//      margin-inline-start : 1rem;
+//    }
+//
+//    .input {
+//      padding-top          : .5rem;
+//      padding-bottom       : .5rem;
+//      border               : none;
+//      border-bottom        : 0.0625rem solid hsla(var(--color), 60%, 45%, var(--alpha));
+//      //border-bottom        : 0.0625rem solid hsla(var(--color), 60%, 45%, var(--alpha));
+//      //border-radius        : var(--radius-extra-small) var(--radius-extra-small) var(--radius-none) var(--radius-none);
+//      outline              : none;
+//      background-color     : hsla(var(--color), 65%, 90%, var(--alpha));
+//      padding-inline-start : 1rem;
+//      padding-inline-end   : 1rem;
+//      caret-color          : hsla(var(--color), 60%, 45%, var(--alpha));
+//
+//      &::placeholder {
+//        user-select : none;
+//        color       : transparent;
+//      }
+//
+//
+//      &:is(:placeholder-shown):not(:focus) {
+//        // for placeholder
+//        & ~ .input--label {
+//          //@include bodyLarge();
+//
+//          //font-size : 1rem;
+//          top       : 50%;
+//          transform : translateY(-50%);
+//          color     : hsla(var(--color), 60%, 10%, var(--alpha));
+//        }
+//      }
+//
+//      &:not(:placeholder-shown), &:focus {
+//        padding-top : .625rem;
+//        // for label
+//        & ~ .input--label {
+//          //@include bodySmall();
+//
+//          font-size : .75rem;
+//          top       : .5rem;
+//          color     : hsla(var(--color), 60%, 45%, var(--alpha));
+//        }
+//      }
+//    }
+//  }
+//
+//
+//}
