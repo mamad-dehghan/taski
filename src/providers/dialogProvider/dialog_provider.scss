@@ -1,0 +1,37 @@
+.dialogs-wrapper {
+  position: fixed;
+  width: inherit;
+  height: inherit;
+  overflow: hidden;
+  display: grid;
+  grid-template-areas: "dialog";
+  align-items: stretch;
+  justify-content: stretch;
+  z-index: 100;
+  inset: 0;
+
+  &:empty{
+    display: none;
+  }
+
+  .single-dialog-wrapper{
+    grid-area: dialog;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: hsla(var(--natural-0), 0.1);
+    backdrop-filter: blur(0.5px);
+  }
+
+  .single-dialog-wrapper:not(:last-of-type) {
+    //pointer-events: none;
+    //display: none;
+  }
+
+  .single-dialog-wrapper:nth-child(even){
+    display: none;
+
+  }
+
+
+}
