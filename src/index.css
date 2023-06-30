@@ -2,6 +2,14 @@
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
     font-weight: 400;
+
+    --radius-none: 0;
+    --radius-extra-small: .25rem;
+    --radius-small: .5rem;
+    --radius-medium: .75rem;
+    --radius-large: 1rem;
+    --radius-extra-large: 28px;
+    --radius-full: 999rem;
 }
 
 html, body, #root {
@@ -14,3 +22,4 @@ html, body, #root {
     padding: 0;
     box-sizing: border-box;
 }
+/*.container {height: 100vh; width: 100%;}*/
