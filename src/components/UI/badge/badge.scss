@@ -1,0 +1,36 @@
+@use "../../../providers/theme/typography";
+//TODO: add colors
+//TODO: badge moves inside element
+.badge-wrapper{
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+
+.badge {
+  position: absolute;
+  inset-inline-end: 0;
+  inset-block-start: 0;
+  user-select      : none;
+  pointer-events   : none;
+  border-radius    : var(--radius-full);
+  background-color : hsla(var(--error), 1);
+  transform: translate(50%, -50%);
+
+  &:empty {
+    width  : 6px;
+    height : 6px;
+  }
+
+  &:not(:empty) {
+    @include typography.bodySmall();
+    font-family     : monospace;
+    display         : inline-flex;
+    align-items     : center;
+    justify-content : center;
+    min-width       : 16px;
+    height          : 16px;
+    padding         : 4px;
+    color           : hsla(var(--on-error), 1);
+  }
+}
+}
