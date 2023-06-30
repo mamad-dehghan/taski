@@ -1,0 +1,41 @@
+@use "../../../providers/theme/elevation";
+@use "../../../providers/theme/typography";
+.dialog{
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  justify-content: center;
+  max-height: 80%;
+  border-radius: var(--radius-extra-large);
+  padding: 24px;
+  @include elevation.elevation-3();
+  @include elevation.elevation-shadow-3();
+  //background-color: ;
+  //max-width
+  max-width: 600px;
+
+  .dialog-header{
+    color:hsl(var(--on-surface));
+    @include typography.headlineSmall();
+    padding-block-end: 8px;
+  }
+
+  .dialog-help-text{
+    color:hsl(var(--on-surface-variant));
+    @include typography.bodyMedium();
+    padding-block: 8px;
+  }
+
+  .dialog-body{
+    overflow-y: auto;
+    padding-block: 8px;
+  }
+
+  .dialog-actions{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    padding-block-start: 8px;
+  }
+}
