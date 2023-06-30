@@ -1,7 +1,10 @@
-import {createContext, ReactNode, useState} from "react";
+import {createContext, CSSProperties, ReactNode, useState} from "react";
 import classNames from "classnames";
 
-import "./theme_provider.scss"
+import "./typography.scss";
+import "./palette.scss";
+
+import './index.scss'
 
 type themeT = {
     "--primary-hue"?: number;
@@ -13,29 +16,23 @@ type themeT = {
 }
 
 const defaultTheme: themeT = {
-    "--primary-hue": 80,
+    "--primary-hue": 260,
     "--secondary-hue": 250,
     "--tertiary-hue": 20
 }
 
-export const themeContext = createContext<
-    {
-        theme: themeT,
-        overrideTheme: (newTheme: themeT) => void,
-        darkMode: boolean | undefined,
-        setDarkMode: (darkMode?: boolean) => void
-    }>({
-    theme: defaultTheme,
-    overrideTheme: () => {
-    },
-    darkMode: false,
-    setDarkMode: () => {
-    }
-})
+type themeContextT ={
+    theme: themeT,
+    overrideTheme: (newTheme: themeT) => void,
+    darkMode: boolean | undefined,
+    setDarkMode: (darkMode?: boolean) => void
+}
+
+export const themeContext = createContext<themeContextT>({} as themeContextT)
 
 type themeProviderT = {
     children: ReactNode,
-    modify?: themeT,
+    modify?: Partial<themeT>,
     forceDarkMode?: boolean
 }
 export const ThemeProvider = ({children, modify = {}, forceDarkMode}: themeProviderT) => {
@@ -54,7 +51,7 @@ export const ThemeProvider = ({children, modify = {}, forceDarkMode}: themeProvi
     return (
         <themeContext.Provider
             value={{theme, overrideTheme: setThemeProvider, darkMode, setDarkMode}}>
-            <div className={className} style={theme as any}>
+            <div className={className} style={theme as CSSProperties}>
                 {children}
             </div>
         </themeContext.Provider>
