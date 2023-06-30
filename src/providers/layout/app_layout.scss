@@ -1,0 +1,53 @@
+@use "./../theme/elevation";
+.app-layout{
+  width: inherit;
+  height: inherit;
+  display:grid;
+  grid-template-columns: max-content auto;
+  grid-template-rows: max-content auto;
+  grid-template-areas: "header header" "sidebar app";
+    //background-color: greenyellow;
+    //background-color: blueviolet;
+  //background-color: hsl(var(--background));
+    @include elevation.elevation-1();
+
+  .app-header{
+    grid-area: header;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    //background-color: blueviolet;
+    @include elevation.elevation-1();
+  }
+
+  .app-sidebar{
+    //background-color: blueviolet;
+    @include elevation.elevation-1();
+    container: sidebar / inline-size;
+    grid-area: sidebar;
+    overflow: hidden;
+    padding-inline: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    padding-block: 12px;
+    &.open{
+    width: 280px;
+
+    }
+    &:not(.open){
+      width: 80px;
+    }
+  }
+
+  .app{
+    grid-area: app;
+    //background-color: white;
+    //margin:4px;
+    margin-inline-end: 4px;
+    margin-block-end: 4px;
+    border-radius: var(--radius-small);
+    @include elevation.elevation-0();
+  }
+}
