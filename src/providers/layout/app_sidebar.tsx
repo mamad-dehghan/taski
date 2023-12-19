@@ -98,14 +98,14 @@ export const AppSidebar = ({}: props) => {
                             enable={false} />
                     </Tooltip>
                     {/*<Tooltip title="schedule">*/}
-                    <Tooltip title="components">
-                        <IconButton
-                            dataFocused={activePanel === "schedule"}
-                            Icon={Rows}
-                            fill={fillOptions.link}
-                            onClick={onsideItemClick(panels.schedule)}
-                            enable={false} />
-                    </Tooltip>
+                    {/*<Tooltip title="components">*/}
+                    {/*    <IconButton*/}
+                    {/*        dataFocused={activePanel === "schedule"}*/}
+                    {/*        Icon={Rows}*/}
+                    {/*        fill={fillOptions.link}*/}
+                    {/*        onClick={onsideItemClick(panels.schedule)}*/}
+                    {/*        enable={false} />*/}
+                    {/*</Tooltip>*/}
                     {/*<Tooltip title="preference">*/}
                     {/*    <IconButton*/}
                     {/*        dataFocused={activePanel === "preference"}*/}
