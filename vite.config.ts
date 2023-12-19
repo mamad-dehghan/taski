@@ -3,10 +3,15 @@ import {VitePWA} from 'vite-plugin-pwa'
 import react from '@vitejs/plugin-react-swc'
 
 export default defineConfig({
-    server:{
-        port:9119,
-        open:'/dashboard/setting',
+    server: {
+        port: 9119,
+        open: '/dashboard/setting',
         // https:true
+    },
+    esbuild: {
+        supported: {
+            'top-level-await': true
+        }
     },
     plugins: [
         VitePWA({
@@ -32,7 +37,7 @@ export default defineConfig({
                         type: 'image/png'
                     }
                 ],
-                "start_url":"/"
+                "start_url": "/"
             }
         }),
         react()
