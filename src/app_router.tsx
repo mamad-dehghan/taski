@@ -4,7 +4,6 @@ import AppLayout from "./providers/layout/app_layout";
 import {Setting} from "./pages/setting/setting";
 import App from "./App";
 import {Calendar} from "./pages/calendar/Calendar";
-import {SignUpPage} from "./pages/signup/SignUpPage";
 import {Login} from "./pages/Login/Login";
 // import {ButtonsPage} from "./pages/components/ButtonsPage";
 // import {IconButtonPage} from "./pages/components/IconButtonPage";

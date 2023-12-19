@@ -27,7 +27,7 @@ export const createProfile = (profile: Omit<DexieProfileModel, "id">) => {
 
 export const readProfile = async (): Promise<DexieProfileModel & { id: number }> => {
     const profile = await db.profile.toArray()
-    return profile[0]
+    return {id:1,...profile[0]}
 }
 
 export const updateProfile = async (profile: Partial<Omit<DexieProfileModel, "id">>) => {

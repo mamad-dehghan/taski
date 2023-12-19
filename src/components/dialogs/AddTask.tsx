@@ -28,8 +28,8 @@ const initialValues: Omit<TaskModel, "id"> = {
     File: undefined,
     tags: "",
     priority: "low",
-    progress: "0",
-    task_category_id: 3
+    progress: 0,
+    category: undefined
 }
 
 export const AddTodoDialog = ({id, open, onClose}: props) => {

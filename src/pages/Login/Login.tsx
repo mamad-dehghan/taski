@@ -8,7 +8,8 @@ import dayjs from "dayjs";
 import {initialLoginFormValues, LoginFormType, loginValidation} from "./loginForm.types";
 import {fillOptions} from "../../providers/theme/types";
 import "./login.scss"
-import {createProfile, updateProfile} from "../../utils/database/profile";
+import {createProfile} from "../../utils/database/profile";
+
 type props = {}
 
 export const Login = ({}: props) => {
@@ -52,18 +53,18 @@ export const Login = ({}: props) => {
                         onChange={formik.handleChange} />
                 </Label>
                 <div className="login-page--actions">
-                <Button
-                    type="button"
-                    fill={fillOptions.link}
-                >
-                    Continue as Guest
-                </Button>
-                <Button
-                    fullWidth
-                    disabled={!formik.isValid}
-                    type="submit">
-                    Login
-                </Button>
+                    <Button
+                        type="button"
+                        fill={fillOptions.link}
+                    >
+                        Continue as Guest
+                    </Button>
+                    <Button
+                        fullWidth
+                        disabled={!formik.isValid}
+                        type="submit">
+                        Login
+                    </Button>
                 </div>
             </form>
         </div>
