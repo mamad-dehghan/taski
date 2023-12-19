@@ -1,3 +1,6 @@
+@use "../theme/palette";
+@use "../theme/typography";
+@use "../theme/elevation";
 .toasts-wrapper {
   position: fixed;
   bottom: 0;
@@ -6,35 +9,66 @@
   padding-inline-start: 1rem;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
   justify-content: flex-end;
-  width: min(480px, calc(100% - 2rem));
+  width: min(480px, calc(100% - 1rem));
   z-index: 200;
+  gap: 8px;
+  pointer-events: none;
   //transform: translateX(-50%);
 
   //TODO: change background
   .toast {
+    @include elevation.elevation-shadow-3();
+    //@include elevation.elevation-3();
     display: flex;
     flex-direction: row;
     width: 100%;
     border-radius: var(--radius-extra-small);
-    background-color: wheat;
+    background-color: hsl(var(--inverse-surface));
+    color: hsl(var(--inverse-on-surface));
+    //background-color: wheat;
     padding-inline-start: 1rem;
     padding-block-start: .25rem;
     padding-block-end: .25rem;
     padding-inline-end: .5rem;
+    pointer-events: auto;
 
     animation: hide-toast 0.9s linear 1;
 
-    button {
-      border-radius: var(--radius-extra-small);
+    .toast-icon {
+      @include palette.inverseTheme();
+      @include elevation.elevation-shadow-0();
+      @include typography.labelLarge();
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 2.5rem;
+      width: 2.5rem;
+      font-size: 1.5rem;
+      text-align: center;
+      //border: none;
+      border-radius: var(--radius-full);
+      outline: none;
+      padding-block: .375rem;
+      user-select: none;
+      cursor: pointer;
+      color: hsl(var(--color));
+      border: .0625rem solid transparent;
+      background-color: transparent;
+
+      &:active, &:focus {
+        @include palette.state-layer(var(--color));
+      }
+      //border-radius: var(--radius-extra-small);
     }
 
     p {
+      @include typography.bodyMedium();
       flex-grow: 1;
-      font-size: 1rem;
-      font-weight: 500;
-      line-height: 1.25rem;
+      //font-size: 1rem;
+      //font-weight: 500;
+      //line-height: 1.25rem;
       padding-block-start: .75rem;
       padding-block-end: .75rem;
     }

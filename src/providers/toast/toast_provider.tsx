@@ -1,28 +1,29 @@
-import {Context, createContext, ReactNode, useCallback, useEffect, useState} from "react";
+import {ReactNode, useCallback, useEffect, useState} from "react";
 import classNames from "classnames";
 import {colorOptions} from "../theme/types";
 
 import './toast_provider.scss'
+import {X} from "@phosphor-icons/react";
+import {ToastContext} from "./toast_context";
 
 type toastT = {
     id: string,
     severity: colorOptions,
     content: string
 }
-type toastContextT = {
-    closeToast: (id: string) => void,
-    closeAllToasts: () => void,
-    toast: (id: string, content: string, severity: colorOptions) => void
-}
-export const ToastContext: Context<toastContextT> = createContext({} as toastContextT)
-
 type props = {
     children: ReactNode
 }
 //TODO: maybe add hide in css or setTimeout
 export const ToastProvider = ({children}: props) => {
-    const [availableToasts, setAvailableToasts] = useState<(toastT & { addedTime: number })[]>([])
-    console.log(availableToasts);
+    const [availableToasts, setAvailableToasts] = useState<(toastT & { addedTime: number })[]>([
+    //     {
+    //     id: '1',
+    //     content: 'A rich content',
+    //     severity: colorOptions.tertiary,
+    //     addedTime: Date.now()
+    // }
+    ])
     const closeAllToasts = useCallback(() => setAvailableToasts([]), [])
     const closeToast = useCallback((id: string) => setAvailableToasts(prevState => prevState.filter(toast => toast.id !== id)), []);
     const addToast = useCallback((id: string, content: string, severity: colorOptions) => {
@@ -33,7 +34,6 @@ export const ToastProvider = ({children}: props) => {
             const toasts = availableToasts;
             toasts[index] = {id, severity, content, addedTime: availableToasts[index].addedTime}
             setAvailableToasts(toasts);
-
         }
     }, [])
 
@@ -70,7 +70,10 @@ const Alert = ({onClose, severity, children}: alertT) => {
     return (
         <div className={classNames("toast", severity)}>
             <p>{children}</p>
-            <button onClick={onClose}>i</button>
+            <button className="toast-icon">
+                <X weight="regular"/>
+            </button>
+            {/*<IconButton Icon={X} onClick={onClose} fill={fillOptions.link} color={colorOptions.surface} enable={true}/>*/}
         </div>
     )
 }

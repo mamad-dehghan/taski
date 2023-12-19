@@ -1,0 +1,234 @@
+{
+  "users": [
+    {
+      "_id": 1,
+      "_cookie": "QWCCFWEfwefweEFqa",
+      "reminders": [
+        {
+          "_id": "rem-1",
+          "title": "reminder1 - 1",
+          "description": "string",
+          "time": "2023-08-12T21:59:35.340Z",
+          "remindAt": "2023-08-06T21:59:35.340Z",
+          "tags": [
+            "tag-1",
+            "tag-2",
+            "tag-3"
+          ]
+        },
+        {
+          "_id": "rem-2",
+          "title": "reminder1 - 2",
+          "description": "string",
+          "time": "2023-08-04T21:59:35.340Z",
+          "remindAt": "2023-08-01T21:59:35.340Z",
+          "tags": [
+            "tag-2",
+            "tag-3"
+          ]
+        }
+      ],
+      "tasks": [
+        {
+          "_id": "tas-1",
+          "title": "task1 - 1",
+          "description": "task desc",
+          "startTime": "2023-08-11T20:59:35.340Z",
+          "endTime": "2023-08-11T21:59:35.340Z",
+          "tags": [
+            "tag-3",
+            "tag-5",
+            "tag-6"
+          ],
+          "priority": "medium",
+          "progress": 18
+        },
+        {
+          "_id": "tas-2",
+          "title": "task1 - 2",
+          "startTime": "2023-08-12T20:59:35.340Z",
+          "endTime": "2023-08-12T21:59:35.340Z",
+          "tags": [
+            "tag-3",
+            "tag-1",
+            "tag-2"
+          ],
+          "priority": "medium",
+          "progress": 70
+        },
+        {
+          "_id": "tas-1",
+          "title": "task1 - 3",
+          "description": "task 3 desc",
+          "startTime": "2023-08-17T14:59:35.340Z",
+          "endTime": "2023-08-17T15:59:35.340Z",
+          "tags": [
+            "tag-1",
+            "tag-5",
+            "tag-4"
+          ],
+          "priority": "high",
+          "progress": 18
+        }
+      ],
+      "events": [
+        {
+          "_id": "eve-1",
+          "title": "event1 - 1",
+          "description": "first event desc",
+          "startTime": "2023-08-14T14:59:35.340Z",
+          "endTime": "2023-08-14T15:59:35.340Z",
+          "tags": [
+            "tag-6",
+            "tag-4"
+          ]
+        },
+        {
+          "_id": "eve-2",
+          "title": "event1 - 2",
+          "startTime": "2023-08-23T17:29:35.340Z",
+          "endTime": "2023-08-23T18:56:35.340Z",
+          "tags": [
+            "tag-1",
+            "tag-3"
+          ]
+        }
+      ],
+      "categories": [
+        {
+          "_id": "cat-1",
+          "title": "education",
+          "description": "this is a description",
+          "color": "#823B32"
+        },
+        {
+          "_id": "cat-2",
+          "title": "work",
+          "description": "this is a description for work",
+          "color": "#629B12"
+        }
+      ],
+      "profile": {
+        "name": "first-user",
+        "email": "first@gmail.com",
+        "preference": {
+        }
+      }
+    },
+    {
+      "_id": 2,
+      "_cookie": "QWCCFWEfwefweEFqa",
+      "reminders": [
+        {
+          "_id": "rem-1",
+          "title": "reminder2 - 1",
+          "description": "string",
+          "time": "2023-08-12T21:59:35.340Z",
+          "remindAt": "2023-08-06T21:59:35.340Z",
+          "tags": [
+            "tag-1",
+            "tag-2",
+            "tag-3"
+          ]
+        },
+        {
+          "_id": "rem-2",
+          "title": "reminder2 - 2",
+          "description": "string",
+          "time": "2023-08-04T21:59:35.340Z",
+          "remindAt": "2023-08-01T21:59:35.340Z",
+          "tags": [
+            "tag-2",
+            "tag-3"
+          ]
+        }
+      ],
+      "tasks": [
+        {
+          "_id": "tas-1",
+          "title": "task1 - 1",
+          "description": "task desc",
+          "startTime": "2023-08-11T20:59:35.340Z",
+          "endTime": "2023-08-11T21:59:35.340Z",
+          "tags": [
+            "tag-3",
+            "tag-5",
+            "tag-6"
+          ],
+          "priority": "medium",
+          "progress": 35
+        },
+        {
+          "_id": "tas-2",
+          "title": "task1 - 2",
+          "startTime": "2023-08-12T20:59:35.340Z",
+          "endTime": "2023-08-12T21:59:35.340Z",
+          "tags": [
+            "tag-3",
+            "tag-1",
+            "tag-2"
+          ],
+          "priority": "medium",
+          "progress": 18
+        },
+        {
+          "_id": "tas-1",
+          "title": "task1 - 3",
+          "description": "task 3 desc",
+          "startTime": "2023-08-17T14:59:35.340Z",
+          "endTime": "2023-08-17T15:59:35.340Z",
+          "tags": [
+            "tag-1",
+            "tag-5",
+            "tag-4"
+          ],
+          "priority": "high",
+          "progress": 18
+        }
+      ],
+      "events": [
+        {
+          "_id": "eve-1",
+          "title": "event1 - 1",
+          "description": "first event desc",
+          "startTime": "2023-08-14T14:59:35.340Z",
+          "endTime": "2023-08-14T15:59:35.340Z",
+          "tags": [
+            "tag-6",
+            "tag-4"
+          ]
+        },
+        {
+          "_id": "eve-2",
+          "title": "event1 - 2",
+          "startTime": "2023-08-23T17:29:35.340Z",
+          "endTime": "2023-08-23T18:56:35.340Z",
+          "tags": [
+            "tag-1",
+            "tag-3"
+          ]
+        }
+      ],
+      "categories": [
+        {
+          "_id": "cat-1",
+          "title": "education",
+          "description": "this is a description",
+          "color": "#203B62"
+        },
+        {
+          "_id": "cat-2",
+          "title": "work",
+          "description": "this is a description for work",
+          "color": "#129B12"
+        }
+      ],
+      "profile": {
+        "name": "first-user",
+        "email": "first@gmail.com",
+        "preference": {
+        }
+      }
+    }
+  ]
+}

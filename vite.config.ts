@@ -3,17 +3,22 @@ import {VitePWA} from 'vite-plugin-pwa'
 import react from '@vitejs/plugin-react-swc'
 
 export default defineConfig({
+    server:{
+        port:9119,
+        open:'/dashboard/setting',
+        // https:true
+    },
     plugins: [
         VitePWA({
             registerType: 'autoUpdate',
             devOptions: {
-                enabled: false
+                enabled: true
             },
-            includeAssets: [],
+            includeAssets: ['favicon.ico'],
             manifest: {
-                name: 'Taski todo manager',
+                name: 'Taski',
                 short_name: 'Taski',
-                description: 'Task and event manager',
+                description: 'A Fantastic todo list',
                 theme_color: '#ffffff',
                 icons: [
                     {
@@ -27,7 +32,7 @@ export default defineConfig({
                         type: 'image/png'
                     }
                 ],
-                start_url: "/"
+                "start_url":"/"
             }
         }),
         react()

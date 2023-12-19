@@ -1,11 +1,11 @@
 @use "../../../providers/theme/typography";
-@use "../../../providers/theme/palette";
+//@use "../../../providers/theme/palette";
 
 label {
   display: inline-flex;
   justify-content : space-between;
   width : 100%;
-  transform : translateY(200px);
+  //transform : translateY(200px);
 
   .label {
     @include typography.bodyLarge();
@@ -25,7 +25,7 @@ label {
       color : hsl(var(--primary));
     }
 
-    &:has(.input--wrapper[data-has-error]) {
+    &:has(.input--wrapper[data-has-error="true"]) {
       .label{
       color : hsl(var(--error));
       }

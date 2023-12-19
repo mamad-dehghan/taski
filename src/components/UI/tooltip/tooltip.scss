@@ -1,0 +1,7 @@
+.tooltip-wrapper {
+  pointer-events: none;
+
+  & > * {
+    pointer-events: auto;
+  }
+}

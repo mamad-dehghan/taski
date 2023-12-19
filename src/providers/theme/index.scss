@@ -2,7 +2,41 @@
 @use "typography";
 @use "elevation";
 
-.theme-provider{
-  width:inherit;
-  height:inherit;
+.theme-provider {
+  width: inherit;
+  height: inherit;
+  @include typography.bodyLarge();
+}
+
+//TODO: add z-index variables
+
+.scroller {
+  container: scrollbar-container / inline-size;
+}
+
+*{
+  --scrollbar-size: 1rem;
+  scrollbar-color: hsl(var(--on-surface-variant)) hsl(var(--surface-variant));
+
+  &::-webkit-scrollbar {
+    width: var(--scrollbar-size);
+  }
+
+  &::-webkit-scrollbar-track {
+    background: hsl(var(--surface-variant));
+    border-radius: var(--radius-full);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: hsl(var(--on-surface-variant));
+    border-radius: var(--radius-full);
+  }
+}
+
+@container scrollbar-container (max-width: 400px) {
+  .scroller {
+    &::-webkit-scrollbar {
+      --scrollbar-size: 0.5rem;
+    }
+  }
 }

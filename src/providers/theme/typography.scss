@@ -1,4 +1,5 @@
 // TODO: add tracking
+// TODO: maybe fix line height
 
 @mixin displayLarge() {
   line-height    : 4rem;
@@ -103,4 +104,10 @@
   font-size      : .75rem;
   letter-spacing : .025rem;
   font-weight    : 400;
+}
+
+@mixin ellipsisText() {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }

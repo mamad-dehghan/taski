@@ -1,0 +1,253 @@
+@use "../../providers/theme/typography";
+@use "../../providers/theme/palette";
+@use "../../providers/theme/elevation";
+
+.date-picker {
+  @include elevation.elevation-1();
+  background-color: hsl(var(--background));
+  @include elevation.elevation-1();
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+  gap: 1rem;
+  width: 22.5rem;
+
+  .date-picker--header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .date-picker--header-month{
+      display: flex;
+      //gap: 0.5rem;
+      .select{
+        border-radius: unset;
+        border: none;
+        width: fit-content;
+        padding-inline-start: 1rem;
+        padding-inline-end: 0.5rem;
+      }
+    }
+
+    .date-picker--header-year{
+      display: flex;
+      //gap: 0.5rem;
+      .select{
+        border-radius: unset;
+        border: none;
+        width: fit-content;
+        padding-inline-start: 1rem;
+        padding-inline-end: 0.5rem;
+      }
+    }
+  }
+
+  .date-picker--days-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+
+    .date-picker--days-header-item {
+      @include typography.bodyLarge();
+      color: hsl(var(--on-surface));
+      text-align: center;
+    }
+  }
+
+  .date-picker--day-container {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+
+    &.range-mode {
+      cursor: pointer;
+    }
+
+    .date-picker--day {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-full);
+      background-color: transparent;
+      border: none;
+      display: flex;
+      //align-items: stretch;
+      //justify-content: stretch;
+
+      user-select: none;
+
+
+      .content {
+        position: relative;
+        @include typography.bodySmall();
+        width: inherit;
+        height: inherit;
+        border-radius: var(--radius-full);
+        border-style: solid;
+        border-color: transparent;
+        background-color: transparent;
+        border-width: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+        //cursor: pointer;
+
+        //&:focus{
+        //  z-index: 5;
+        //}
+      }
+
+      &:is(:disabled, .disabled) {
+        //visibility: hidden;
+
+        .content {
+          color: hsla(var(--on-surface), 0.38);
+          background-color: transparent;
+        }
+      }
+
+      &:not(:disabled, .disabled) {
+        cursor: pointer;
+
+        &.selected {
+          .content {
+            background-color: hsl(var(--primary));
+            color: hsl(var(--on-primary));
+            @include palette.state-layer(var(--on-primary));
+          }
+        }
+
+        &:not(.selected) {
+          &:not(.in-range) {
+            .content {
+              color: hsl(var(--on-surface));
+              //background-color: hsl(var(--surface));
+              background-color: transparent;
+            }
+          }
+
+          .content {
+            //color: hsl(var(--on-surface));
+            @include palette.state-layer(var(--on-surface));
+          }
+
+          &.is-today {
+            .content {
+
+              border: 1px solid hsl(var(--primary));
+              color: hsl(var(--primary));
+              @include palette.state-layer(var(--primary));
+            }
+          }
+        }
+      }
+
+      &.with-badge {
+        position: relative;
+
+        .content {
+
+          &::after {
+            content: " ";
+            position: absolute;
+            inset-block-end: 2px;
+            inset-inline-start: calc(50% - 2px);
+            //z-index: 2;
+            width: 4px;
+            height: 4px;
+            border-radius: var(--radius-full);
+          }
+        }
+
+        //background-color: #ef233c;
+        &:is(:disabled, .disabled) {
+          .content {
+
+            &::after {
+              background-color: hsla(var(--on-surface), 0.38);
+            }
+          }
+        }
+
+        &:not(:disabled, .disabled) {
+          &.selected {
+            .content {
+              &::after {
+                background-color: hsl(var(--on-primary));
+              }
+            }
+          }
+
+          &:not(.selected) {
+            .content {
+              &::after {
+                background-color: hsl(var(--primary));
+              }
+            }
+          }
+        }
+      }
+
+      &.start-range {
+        position: relative;
+
+        .range-section {
+          pointer-events: none;
+          position: absolute;
+          content: " ";
+          height: 40px;
+          width: calc(50% + 4px);
+          top: 0;
+          right: -4px;
+          z-index: 1;
+          background-color: hsl(var(--primary-container));
+        }
+      }
+
+      &.end-range {
+        position: relative;
+
+        .range-section {
+          pointer-events: none;
+          position: absolute;
+          content: " ";
+          height: 40px;
+          width: calc(50% + 4px);
+          top: 0;
+          left: -4px;
+          z-index: 1;
+          background-color: hsl(var(--primary-container));
+        }
+      }
+
+      &.in-range {
+        position: relative;
+
+        .content {
+          color: hsl(var(--on-primary-container));
+        }
+
+        .range-section {
+          pointer-events: none;
+          position: absolute;
+          content: " ";
+          height: 40px;
+          width: calc(100% + 8px);
+          top: 0;
+          left: -4px;
+          z-index: 1;
+          background-color: hsl(var(--primary-container));
+        }
+      }
+
+      &:not(.start-range, .end-range, .in-range) {
+        .range-section {
+          display: none;
+        }
+      }
+    }
+  }
+}

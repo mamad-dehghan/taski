@@ -1,19 +1,22 @@
 @use "../../../providers/theme/typography";
+@use "src/providers/theme/palette";
 //TODO: add colors
 //TODO: badge moves inside element
 .badge-wrapper{
+  display: flex;
   position: relative;
   width: fit-content;
   height: fit-content;
 
 .badge {
+  @include palette.colorMode();
   position: absolute;
   inset-inline-end: 0;
   inset-block-start: 0;
   user-select      : none;
   pointer-events   : none;
   border-radius    : var(--radius-full);
-  background-color : hsla(var(--error), 1);
+  background-color : hsla(var(--color), 1);
   transform: translate(50%, -50%);
 
   &:empty {
@@ -30,7 +33,7 @@
     min-width       : 16px;
     height          : 16px;
     padding         : 4px;
-    color           : hsla(var(--on-error), 1);
+    color           : hsla(var(--on-color), 1);
   }
 }
 }

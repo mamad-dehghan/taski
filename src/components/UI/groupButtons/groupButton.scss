@@ -1,0 +1,54 @@
+.group-button {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 0;
+  align-items: stretch;
+  justify-content: flex-start;
+  border-radius: var(--radius-full);
+  //padding: 0.0625rem;
+  border: 0.0625rem hsl(var(--outline)) solid;
+  //background-color: hsl(var(--outline));
+
+  .group-button--separator {
+    width: 0.0625rem;
+    height: inherit;
+    background-color: hsla(var(--outline), 0.12);
+
+    &:not(:has(+.button--disabled, +.button:disabled)) {
+      background-color: hsl(var(--outline));
+    }
+
+    //&:first-of-type{
+    //  display: none;
+    //}
+  }
+
+  & > :is(.button, .icon-button) {
+    //border-inline-width: 0;
+    &:not(.button--disabled, :disabled) {
+      & + .group-button--separator {
+        background-color: hsl(var(--outline));
+      }
+    }
+
+    &:focus {
+      z-index: 2;
+    }
+
+    &:not(:first-of-type, :last-of-type) {
+      //border-inline-width: .03125rem;
+    }
+
+    &:not(:first-of-type) {
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 0;
+      border-inline-start-width: 0;
+    }
+
+    &:not(:last-of-type) {
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0;
+      border-inline-end-width: 0;
+    }
+  }
+}

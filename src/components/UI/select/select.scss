@@ -1,0 +1,21 @@
+.select {
+  width: 150px;
+  justify-content: space-around;
+
+  .select-content {
+    flex-grow: 1;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    pointer-events: none;
+    //direction: ;
+  }
+}
+
+.select-menu {
+  //max-height: calc(50% - 3rem);
+  //height: min(calc(50% - 3rem) , fit-content);
+  max-height: 15rem;
+  overflow-y: auto;
+  //height: clamp(100px, min-content, 400px);
+}

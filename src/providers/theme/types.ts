@@ -2,14 +2,19 @@ export enum fillOptions {
     fill = "fill",
     link = "link",
     outline = "outline",
-    shadow = "shadow"
+    elevated = "elevated",
+    tonal = "tonal"
 }
 
 export enum colorOptions {
     primary = "primary",
-    danger = "danger",
+    error = "error",
     warning = "warning",
-    success = "success"
+    success = "success",
+
+    secondary = "secondary",
+    tertiary = "tertiary",
+    surface = "surface"
 }
 
 export enum componentSizeOptions {

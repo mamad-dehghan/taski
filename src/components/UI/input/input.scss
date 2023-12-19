@@ -1,59 +1,65 @@
 @use "../../../providers/theme/palette";
 @use "../../../providers/theme/typography";
-
+// TODO: add other kinds
+// TODO: fix background
 .input--wrapper {
-  position         : relative;
+  position: relative;
   //width : fit-content;
-  display          : inline-flex;
+  display: inline-flex;
   //flex-direction: column;
-  margin-block-end : 20px;
+  margin-block-end: 20px;
+  // for overflow ??
+  margin-inline: 6px;
+  @include palette.colorMode();
 
   &[data-support-text]:after {
-    position       : absolute;
-    top            : 52px;
-    content        : attr(data-support-text);
-    padding-inline : 16px;
+    position: absolute;
+    top: 52px;
+    content: attr(data-support-text);
+    padding-inline: 16px;
     @include typography.bodySmall();
   }
 
-  &[data-has-error] {
+  &[data-has-error="true"] {
     &[data-support-text]:after {
-      color : hsl(var(--error));
+      color: hsl(var(--error));
     }
-    .input{
-      &.input--outline{
+
+    .input {
+      &.input--outline {
         outline-color: hsl(var(--error));
         caret-color: hsl(var(--error));
 
         &:not(:disabled) {
           &:hover {
-            outline-color : hsl(var(--error-container));
+            outline-color: hsl(var(--error-container));
           }
 
           &:focus-visible, &:focus {
-            outline-color : hsl(var(--error));
+            outline-color: hsl(var(--error));
           }
         }
       }
     }
   }
 
-  &:not([data-has-error]) {
+  &:not([data-has-error="true"]) {
     &[data-support-text]:after {
-      color : hsl(var(--on-surface-variant));
+      color: hsl(var(--on-surface-variant));
     }
-    .input{
-      &.input--outline{
+
+    .input {
+      &.input--outline {
         outline-color: hsl(var(--outline));
-        caret-color: hsl(var(--primary));
+        caret-color: hsl(var(--color));
 
         &:not(:disabled) {
           &:hover {
-            outline-color : hsl(var(--on-surface));
+            outline-color: hsl(var(--on-surface));
           }
 
           &:focus-visible, &:focus {
-            outline-color : hsl(var(--primary));
+            outline-color: hsl(var(--color));
           }
         }
       }
@@ -62,64 +68,125 @@
 
 
   .input {
+    @include typography.bodyLarge();
+    background-color: inherit;
+    height: 48px;
+    padding: 8px 20px;
+    position: relative;
+
+    &:is(.input--with-start-icon) {
+      padding-inline-start: 2.75rem;
+    }
+
+    &:is(.input--with-end-icon) {
+      padding-inline-end: 2.75rem;
+    }
 
     &.full-width {
-      width : 100%;
+      width: 100%;
     }
 
     &:not(.full-width) {
-      width : 400px;
+      width: 400px;
     }
 
-    &.input--outline {
-      @include typography.bodyLarge();
-      color         : hsl(var(--on-surface));
-      height        : 48px;
-      outline : {
-        width : 1px;
-        style : solid;
+    &:is(.input--outline) {
+      color: hsl(var(--on-surface));
+      outline: {
+        width: 1px;
+        style: solid;
       };
-      border-width  : 0;
-      border-radius : var(--radius-extra-large);
-      padding       : 8px 20px;
-      //caret-color   : hsl(var(--primary));
+      border-width: 0;
+      border-radius: var(--radius-extra-large);
+      //caret-color   : hsl(var(--color));
 
       &::placeholder {
-        color : hsl(var(--on-surface-variant));
+        color: hsl(var(--on-surface-variant));
       }
-
-      //&[data-support-text]{
-      position      : relative;
-
-      //}
 
       &:not(:disabled) {
         &:hover {
-          outline : {
-            width : 1px;
-            style : solid;
+          outline: {
+            width: 1px;
+            style: solid;
           };
         }
 
         &:focus-visible, &:focus {
-          outline : {
-            width : 2px;
-            style : solid;
+          outline: {
+            width: 2px;
+            style: solid;
           };
         }
       }
 
       &:disabled {
-        outline : {
-          width : 1px;
-          style : solid;
-          color : hsla(var(--on-surface), 12%);
+        outline: {
+          width: 1px;
+          style: solid;
+          color: hsla(var(--on-surface), 12%);
         };
-        color : hsla(var(--on-surface), 38%);
+        color: hsla(var(--on-surface), 38%);
       }
 
+      &:-webkit-autofill {
+        @include typography.bodyLarge();
+        // TODO: fix
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: #ffffff;
+        transition: background-color 5000s ease-in-out 0s;
+        box-shadow: inset 0 0 20px 20px #23232329;
+
+        &:is(:hover, :focus,:active) {
+          @include typography.bodyLarge();
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: #ffffff;
+          transition: background-color 5000s ease-in-out 0s;
+          box-shadow: inset 0 0 24px 24px hsla(var(--container),0.5);
+        }
+      }
+    }
+
+    &[type="color"] {
+      &::-webkit-color-swatch-wrapper {
+        width: 1.5rem;
+        height: 1.5rem;
+        aspect-ratio: 1;
+        right: 0.75rem;
+        top: 0.75rem;
+        position: absolute;
+        border-radius: 1.5rem;
+        padding: 0;
+      }
+
+      &::-webkit-color-swatch {
+        border: 0;
+        width: 24px;
+        height: 24px;
+        flex: 0 0 24px;
+        border-radius: 1.5rem;
+      }
     }
   }
+
+  .input-icon {
+    position: absolute;
+    //user-select: none;
+    //pointer-events: none;
+    font-size: 24px;
+  }
+
+  .start-icon {
+    inset-block-start: .75rem;
+    inset-inline-start: .75rem;
+  }
+
+  .end-icon {
+    //position: absolute;
+    inset-block-start: .75rem;
+    inset-inline-end: .75rem;
+  }
+
 }
 
 //.input--wrapper {
@@ -133,7 +200,7 @@
 //  &:is(.input--wrapper--outline) {
 //
 //    //.input--label {
-//    //  background-color : hsl(var(--primary));
+//    //  background-color : hsl(var(--color));
 //    //}
 //
 //    .input--inside-wrapper {
@@ -159,7 +226,7 @@
 //        };
 //        background-color : antiquewhite;
 //        padding          : 8px 20px;
-//        caret-color      : hsl(var(--primary));
+//        caret-color      : hsl(var(--color));
 //        outline          : none;
 //
 //        &::placeholder {
@@ -168,7 +235,7 @@
 //
 //        &:focus-visible, &:focus {
 //          //border  : {
-//          //  color : hsl(var(--primary));
+//          //  color : hsl(var(--color));
 //          //}
 //        }
 //

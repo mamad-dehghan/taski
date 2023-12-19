@@ -1,0 +1,24 @@
+.setting-page{
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 2rem;
+  flex-flow: column;
+  padding: 2rem 1.5rem;
+  .section{
+    width: 100%;
+    display:  flex;
+    align-items: stretch;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1rem;
+    .section-header{
+      display: flex;
+      align-items: center;
+      justify-content: stretch;
+      .section-title{
+        padding-inline: 10%;
+      }
+    }
+  }
+}

@@ -1,0 +1,311 @@
+@use "../../providers/theme/typography";
+@use "../../providers/theme/palette";
+@use "../../providers/theme/elevation";
+
+:root {
+  --hour: 0;
+}
+
+.time-picker {
+  //background-color: hsl(var(--surface-variant));
+  @include elevation.elevation-1();
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+
+  display: grid;
+
+  &.horizontal {
+    grid-template:
+    "header visual" auto
+    "input visual" auto
+    "footer footer" auto
+    /auto auto;
+
+  }
+
+  &.vertical {
+    grid-template:
+  "header" auto
+  "input" auto
+  "visual" auto
+  "footer" auto
+  /auto;
+
+    .time-picker--input {
+      height: 80px;
+      display: flex;
+      //flex-flow: row nowrap;
+      align-items: stretch;
+      justify-content: stretch;
+      column-gap: 12px;
+      margin-bottom: 36px;
+      text-align: center;
+
+      .time {
+        display: flex;
+        align-items: stretch;
+        justify-content: stretch;
+
+        .hour, .minute {
+          @include typography.displayLarge();
+          width: 96px;
+          flex: 1 0 96px;
+          border-radius: var(--radius-small);
+          border-width: 0;
+          text-align: center;
+          color: hsl(var(--on-surface));
+          background-color: hsl(var(--surface-container-highest));
+
+          &:focus {
+            color: hsl(var(--on-primary-container));
+            background-color: hsl(var(--primary-container));
+          }
+        }
+
+        .separator {
+          width: 24px;
+          user-select: none;
+          @include typography.displayLarge()
+        }
+      }
+
+      .zone {
+        user-select: none;
+        @include typography.titleMedium();
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: stretch;
+        height: 80px;
+        width: 52px;
+        //border: 1px solid hsl(var(--outline));
+        background-color: hsl(var(--outline));
+        gap: 1px;
+        border-radius: var(--radius-small);
+
+        .am, .pm {
+          //height: 40px;
+          @include typography.titleMedium();
+          cursor: pointer;
+          //background-color: hsl(var(--surface-container-highest));
+          //&:not(.active) {
+          //}
+
+          border-color: hsl(var(--outline));
+          border-style: solid;
+          flex: 1;
+
+          &.active {
+            background-color: hsl(var(--tertiary-container));
+            color: hsl(var(--on-tertiary-container));
+            @include palette.state-layer(var(--on-tertiary-container))
+          }
+
+          &:not(.active) {
+            //@include elevation.elevation-2();/
+            background-color: hsl(var(--background));
+            color: hsl(var(--on-surface-variant));
+            @include palette.state-layer(var(--on-surface-variant))
+
+          }
+
+          &:focus {
+            z-index: 2;
+          }
+        }
+
+        .am {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-top-left-radius: inherit;
+          border-top-right-radius: inherit;
+          vertical-align: middle;
+          border-width: 1px;
+          border-bottom-width: 0;
+        }
+
+        .pm {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-bottom-left-radius: inherit;
+          border-bottom-right-radius: inherit;
+          vertical-align: middle;
+          border-width: 1px;
+          border-top-width: 0;
+        }
+      }
+    }
+
+    .time-picker--visual {
+      //padding: 4px;
+      .hours-wrapper {
+        counter-reset: hour;
+        //--hour:0;
+        //--hour-active:0;
+        height: 256px;
+        aspect-ratio: 1;
+        border-radius: var(--radius-full);
+        position: relative;
+        margin: auto;
+
+        .hour-wrapper {
+          counter-increment: hour;
+          position: absolute;
+          width: 48px;
+          aspect-ratio: 1;
+          inset: calc(50% - 24px);
+          border-radius: var(--radius-full);
+          transform-origin: 24px 125px;
+          cursor: pointer;
+
+          &:nth-of-type(1) {
+            transform: translateY(-100px);
+
+            .hour {
+              //transform: rotate(-30deg);
+            }
+          }
+
+          &:nth-of-type(2) {
+            transform: translateY(-100px) rotate(30deg);
+
+            .hour {
+              transform: rotate(-30deg);
+            }
+          }
+
+          &:nth-of-type(3) {
+            transform: translateY(-100px) rotate(60deg);
+
+            .hour {
+              transform: rotate(-60deg);
+            }
+          }
+
+          &:nth-of-type(4) {
+            transform: translateY(-100px) rotate(90deg);
+
+            .hour {
+              transform: rotate(-90deg);
+            }
+          }
+
+          &:nth-of-type(5) {
+            transform: translateY(-100px) rotate(120deg);
+
+            .hour {
+              transform: rotate(-120deg);
+            }
+          }
+
+          &:nth-of-type(6) {
+            transform: translateY(-100px) rotate(150deg);
+
+            .hour {
+              transform: rotate(-150deg);
+            }
+          }
+
+          &:nth-of-type(7) {
+            transform: translateY(-100px) rotate(180deg);
+
+            .hour {
+              transform: rotate(-180deg);
+            }
+          }
+
+          &:nth-of-type(8) {
+            transform: translateY(-100px) rotate(210deg);
+
+            .hour {
+              transform: rotate(-210deg);
+            }
+          }
+
+          &:nth-of-type(9) {
+            transform: translateY(-100px) rotate(240deg);
+
+            .hour {
+              transform: rotate(-240deg);
+            }
+          }
+
+          &:nth-of-type(10) {
+            transform: translateY(-100px) rotate(270deg);
+
+            .hour {
+              transform: rotate(-270deg);
+            }
+          }
+
+          &:nth-of-type(11) {
+            transform: translateY(-100px) rotate(300deg);
+
+            .hour {
+              transform: rotate(-300deg);
+            }
+          }
+
+          &:nth-of-type(12) {
+            transform: translateY(-100px) rotate(330deg);
+
+            .hour {
+              transform: rotate(-330deg);
+            }
+          }
+        }
+
+        .sikh {
+          position: relative;
+          left: 50%;
+          top: calc(50% - 1px);
+          width: 78px;
+          height: 2px;
+          background-color: blue;
+          transform: rotate(-90deg);
+          transform-origin: left;
+        }
+
+        .center {
+          position: relative;
+          inset: calc(50% - 4px);
+          width: 8px;
+          aspect-ratio: 1;
+          background-color: blue;
+          border-radius: var(--radius-full);
+        }
+      }
+    }
+  }
+
+  .time-picker--title {
+    grid-area: header;
+    @include typography.labelMedium();
+    color: hsl(var(--on-surface-variant));
+    //background-color: #ef233c;
+    margin-bottom: 20px;
+  }
+
+  .time-picker--input {
+    grid-area: input;
+    //background-color: aquamarine;
+  }
+
+  .time-picker--visual {
+    grid-area: visual;
+    background-color: chocolate;
+  }
+
+  .time-picker--footer {
+    grid-area: footer;
+    //background-color: chartreuse;
+    margin-top: 24px;
+    gap: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+}

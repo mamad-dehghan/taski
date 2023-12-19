@@ -1,6 +1,7 @@
 {
-    "name": "",
-    "short_name": "",
+    "name": "Taski",
+    "short_name": "Taski",
+    description: "A Fantastic todo list",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",
@@ -13,7 +14,9 @@
             "type": "image/png"
         }
     ],
+    "start_url": "/dashboard",
     "theme_color": "#ffffff",
     "background_color": "#ffffff",
-    "display": "standalone"
+    "display": "standalone",
+    "scope": "/dashboard",
 }

@@ -1,53 +1,120 @@
 @use "./../theme/elevation";
-.app-layout{
+
+.app-layout {
   width: inherit;
   height: inherit;
-  display:grid;
+  display: grid;
   grid-template-columns: max-content auto;
-  grid-template-rows: max-content auto;
-  grid-template-areas: "header header" "sidebar app";
-    //background-color: greenyellow;
-    //background-color: blueviolet;
-  //background-color: hsl(var(--background));
-    @include elevation.elevation-1();
+  grid-template-rows: 64px auto;
+  grid-template-areas: "sidebar header" "sidebar app";
+  //background-color: greenyellow;
+  //background-color: blueviolet;
+  background-color: hsl(var(--background));
+  //@include elevation.elevation-1();
+  overflow: hidden;
+  position: relative;
 
-  .app-header{
+  .app-header {
     grid-area: header;
     display: flex;
     align-items: center;
     justify-content: space-between;
     //background-color: blueviolet;
     @include elevation.elevation-1();
+    margin: 4px 4px;
+    border-radius: var(--radius-small);
+    padding-inline: 12px;
+    //height: 64px;
+    .left-section{
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
   }
 
-  .app-sidebar{
-    //background-color: blueviolet;
-    @include elevation.elevation-1();
-    container: sidebar / inline-size;
+  .app-sidebar {
+    //container: sidebar / inline-size;
     grid-area: sidebar;
     overflow: hidden;
-    padding-inline: 12px;
     display: flex;
-    flex-direction: column;
-    gap: 12px;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: flex-start;
 
-    padding-block: 12px;
-    &.open{
-    width: 280px;
+    .app-side-menu {
+      @include elevation.elevation-1();
+      //display: flex;
+      //flex-direction: column;
+      display: grid;
+      grid-template-rows: 1fr auto 1fr;
+      align-items: center;
+      justify-content: space-between;
+      padding-inline: 12px;
+      border-radius: var(--radius-small);
+      padding-block: 12px;
+
+      .top-section {
+        align-self: start;
+      }
+
+      .bottom-section {
+        align-self: end;
+      }
+    }
+
+    .app-side-panel {
+      @include elevation.elevation-1();
+      height: 100%;
+      flex: 1 0 auto;
+      border-radius: var(--radius-small);
+      padding-block: 12px;
 
     }
-    &:not(.open){
-      width: 80px;
+
+    gap: 4px;
+
+    margin: 4px 2px;
+
+    &.open {
+      width: 400px;
+
+    }
+
+    &:not(.open) {
+      width: 64px;
+    }
+
+    .taski-logo {
+      width: 40px;
+      aspect-ratio: 1;
     }
   }
 
-  .app{
+  .app {
+    overflow: auto;
     grid-area: app;
+    display: grid;
     //background-color: white;
     //margin:4px;
     margin-inline-end: 4px;
     margin-block-end: 4px;
     border-radius: var(--radius-small);
     @include elevation.elevation-0();
+  }
+
+  .add-todo-fab{
+    position: absolute;
+    z-index: 10;
+    inset-block-end: 1rem;
+    inset-inline-end: 1rem;
+  }
+}
+.components-panel{
+  a{
+    color: hsl(var(--on-surface));
+    &:hover{
+    color: hsl(var(--primary));
+
+    }
   }
 }

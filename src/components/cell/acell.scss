@@ -1,0 +1,379 @@
+@use "../../providers/theme/palette";
+
+.calendar-table {
+  width: inherit;
+  height: inherit;
+  display: grid;
+  background-color: inherit;
+  grid-template-areas: "corner top" "side table";
+  //transition: all 1s;
+
+  &.day-view {
+    position: relative;
+    grid-template-rows: 84px 1fr;
+    grid-template-columns: 72px 1fr;
+
+    .calendar-table--days {
+      grid-template:1fr/ 1fr;
+
+      .day-c {
+        grid-template-rows: 1fr;
+
+        .calendar-table--days--day-details {
+          display: none;
+        }
+
+        .calendar-table--days--task--wrapper {
+          position: relative;
+          display: grid;
+          grid-template-rows: repeat(24, minmax(40px, calc(100% / 24)));
+
+          .content {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            background-color: hsl(var(--error-container));
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          .calendar-table--days--hour-cell {
+            grid-row: span 1;
+            border: 1px solid green;
+          }
+        }
+      }
+    }
+
+    .calendar-table--top {
+      grid-template-columns: repeat(1, 1fr);
+
+      .calendar-table--top--cell {
+
+        //&:not(.selected-day) {
+        //  display: none;
+        //}
+      }
+    }
+
+  }
+
+  &.week-view {
+    grid-template-rows: 84px 1fr;
+    grid-template-columns: 72px 1fr;
+
+    .calendar-table--days {
+      grid-template:auto/ repeat(7, 1fr);
+
+      .day-c {
+        grid-template-rows: 1fr;
+
+        .calendar-table--days--day-details {
+          display: none;
+        }
+
+        .calendar-table--days--task--wrapper {
+          position: relative;
+          display: grid;
+          grid-template-rows: repeat(24, minmax(40px, calc(100% / 24)));
+
+          .content {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            background-color: hsl(var(--error-container));
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          .calendar-table--days--hour-cell {
+            grid-row: span 1;
+            border: 1px solid green;
+          }
+        }
+      }
+    }
+
+    .calendar-table--top {
+      grid-template-columns: repeat(7, 1fr);
+    }
+
+  }
+
+  &.month-view {
+    grid-template-rows: 40px 1fr;
+    grid-template-columns: 0 1fr;
+
+    .calendar-table--days {
+      grid-template-columns: repeat(7, 1fr);
+      min-height: max-content;
+
+      .day-c {
+        grid-template-rows: 48px 1fr;
+        min-height: 0;
+
+        .calendar-table--days--day-details {
+          grid-row: 1/2;
+
+          .week {
+            display: none;
+          }
+        }
+
+        .calendar-table--days--task--wrapper {
+          grid-row: 2/3;
+          display: grid;
+          grid-template-rows: 1fr;
+          grid-template-columns: 1fr;
+          //display: flex;
+          //flex-direction: column;
+          //flex-wrap: nowrap;
+          //align-items: stretch;
+          justify-content: flex-start;
+          overflow-y: auto;
+          --todo-height: 24px;
+
+          // TODO: solve this better (remove .last class)
+          .calendar-table--days--task--single-task-wrapper {
+            container-type: size;
+            container-name: single-task-wrapper;
+            display: grid;
+            grid-template-rows:  var(--todo-height) 1fr;
+
+            //@container single-task-wrapper (height<48px) {
+            //  background-color: crimson;
+            //}
+            //@container single-task-wrapper (height>=48px) {
+            //  background-color: slateblue;
+            //}
+            .tt {
+              display: block;
+              //.content{
+              //  width: inherit;
+              //}
+
+              .other {
+                display: block;
+              }
+
+              white-space: nowrap;
+              overflow: hidden;
+              @container single-task-wrapper (height<48px) {
+                & + .calendar-table--days--task--single-task-wrapper {
+                  display: none;
+                }
+
+                &:not(.last) {
+                  .content {
+                    display: none;
+                  }
+                }
+
+                &.last {
+                  .other {
+                    display: none;
+                  }
+                }
+              }
+              //@container single-task-wrapper (24px<=height<48px) {
+              //  .other {
+              //    //display: none;
+              //    background-color: crimson;
+              //  }
+              //}
+              @container single-task-wrapper (height>=48px) {
+                .other {
+                  display: none;
+                }
+              }
+            }
+          }
+
+          .calendar-table--days--hour-cell {
+            //grid-row: span 1;
+            border: 1px solid green;
+
+            &:not(:first-child) {
+              //display: none;
+            }
+          }
+        }
+      }
+    }
+
+    .calendar-table--top {
+      grid-template-columns: repeat(7, 1fr);
+
+      .calendar-table--top--cell {
+        .number {
+          display: none;
+        }
+      }
+    }
+
+    .calendar-table--side {
+      display: none;
+    }
+  }
+
+  &.schedule-view {
+    // add month title
+    grid-template-rows: 0 1fr;
+    grid-template-columns: 0 1fr;
+
+    .calendar-table--days {
+      grid-template:auto/ 1fr;
+      height: fit-content;
+
+      .day-c {
+        // hide empty task
+        grid-template: auto/134px 1fr;
+        align-items: start;
+
+        .calendar-table--days--day-details {
+          position: sticky;
+          inset-block-start: 0;
+          //grid: 1 -1/span 1;
+          grid-row: 1/ -1;
+          grid-column: 1/ 2;
+
+          display: flex;
+          flex-direction: row;
+          align-items: baseline;
+          justify-content: space-around;
+        }
+
+        .calendar-table--days--task--wrapper {
+          grid-row: 1/2;
+          grid-column: 2/ 3;
+          display: grid;
+          grid-template-rows: 1fr;
+          gap:8px;
+          align-items: center;
+
+          .calendar-table--days--hour-cell {
+            grid-row: span 1;
+            border: 1px solid green;
+          }
+          .tt{
+            .content{
+              height: fit-content;
+            }
+          }
+        }
+      }
+    }
+
+    .calendar-table--top {
+      display: none;
+    }
+
+    .calendar-table--corner {
+      display: none;
+    }
+
+    .calendar-table--side {
+      display: none;
+    }
+  }
+
+  .calendar-table--top {
+    grid-area: top;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background-color: inherit;
+    display: grid;
+
+    .calendar-table--top--cell {
+      grid-column: span 1;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+  }
+
+
+  .calendar-table--corner {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background-color: inherit;
+  }
+
+  .calendar-table--side {
+    grid-area: side;
+    display: grid;
+    background-color: inherit;
+    //grid-template-rows: repeat(24, 40px);
+    grid-template-rows: repeat(24, minmax(40px, calc(100% / 24)));
+    //add aspect ratio
+    .calendar-table--side--hour-cell {
+      background-color: inherit;
+      grid-row: span 1;
+      //border: 1px solid blue;
+      border-inline-end: 1px solid hsl(var(--on-surface-variant));
+      .calendar-table--side--hour-cell-content{
+        background-color: inherit;
+        padding-inline: 4px;
+        transform: translateY(50%);
+        display: flex;
+        align-items: center;
+        width: fit-content;
+        height: 100%;
+        pointer-events: none;
+        user-select: none;
+      }
+
+      &:last-of-type {
+        .calendar-table--side--hour-cell-content{
+          display: none;
+        }
+      }
+
+      &:not(:last-of-type) {
+        border-block-end: 1px solid hsl(var(--on-surface-variant));
+      }
+    }
+  }
+
+  .calendar-table--days {
+    display: grid;
+    grid-area: table;
+
+    .day-c {
+      grid-row: span 1;
+      grid-column: span 1;
+      //height: inherit;
+      //flex: 1 1 fit-content;
+      //width: calc(100% / 7);
+      //border: 1px solid red;
+      min-height: 2rem;
+      display: grid;
+
+      .calendar-table--days--task--single-task-wrapper {
+        display: contents;
+
+        .tt {
+          display: contents;
+
+          .content {
+            cursor: pointer;
+            background-color: hsl(var(--primary-container));
+            color: hsl(var(--on-primary-container));
+            padding: 2px 4px;
+            border-radius: 4px;
+            @include palette.state-layer(var(--on-primary-container))
+          }
+
+          .other {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}

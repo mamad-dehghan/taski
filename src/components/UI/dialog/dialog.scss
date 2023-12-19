@@ -12,7 +12,8 @@
   @include elevation.elevation-shadow-3();
   //background-color: ;
   //max-width
-  max-width: 600px;
+  min-width: 280px;
+  max-width: 560px;
 
   .dialog-header{
     color:hsl(var(--on-surface));
@@ -27,7 +28,9 @@
   }
 
   .dialog-body{
-    overflow-y: auto;
+    //TODO: fix
+    //@include typography.bodyMedium();
+    //overflow-y: auto;
     padding-block: 8px;
   }
 

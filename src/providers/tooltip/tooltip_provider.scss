@@ -1,0 +1,32 @@
+@use "../theme/typography";
+//TODO: fix z-index
+.tooltip-section {
+  z-index: 20;
+  pointer-events: none;
+
+  .tooltip1 {
+    position: absolute;
+    border-radius: var(--radius-extra-small);
+    // inverse
+    background-color: hsl(var(--inverse-surface));
+    color: hsl(var(--inverse-on-surface));
+    @include typography.bodySmall();
+
+    padding-inline: 0.5rem;
+    padding-block: 0.25rem;
+    white-space: pre;
+
+    user-select: none;
+    pointer-events: none;
+    &:empty{
+      display: none;
+    }
+  }
+  .tooltip-simulator{
+    @include typography.bodySmall();
+    padding-inline: 0.5rem;
+    padding-block: 0.25rem;
+    visibility: hidden;
+    z-index: -1;
+  }
+}
