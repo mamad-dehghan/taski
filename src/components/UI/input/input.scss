@@ -12,12 +12,22 @@
   margin-inline: 6px;
   @include palette.colorMode();
 
+  &.full-width{
+    width: -webkit-fill-available;
+  }
+
   &[data-support-text]:after {
     position: absolute;
     top: 52px;
     content: attr(data-support-text);
     padding-inline: 16px;
     @include typography.bodySmall();
+  }
+
+
+  &:is(.disabled){
+    color: hsla(var(--on-surface), 38%);
+    fill:  hsla(var(--on-surface), 38%);
   }
 
   &[data-has-error="true"] {
@@ -32,7 +42,7 @@
 
         &:not(:disabled) {
           &:hover {
-            outline-color: hsl(var(--error-container));
+            outline-color: hsl(var(--on-error-container));
           }
 
           &:focus-visible, &:focus {

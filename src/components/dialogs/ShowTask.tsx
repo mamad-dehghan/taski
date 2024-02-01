@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Dialog} from "../UI/dialog/Dialog";
+import React, {memo, useId, useState} from 'react';
+import {Dialog, DialogActions, DialogHelpText, DialogTitle} from "../UI/dialog/Dialog";
 import {TaskModel} from "../../utils/dataModels/task";
 import {FAB} from "../UI/fab/FAB";
 import {PencilLine} from "@phosphor-icons/react";
@@ -9,44 +9,50 @@ import {EditTodoDialog} from "./EditTask";
 // import {Button} from "../UI/button/Button";
 
 type props = {
-    id: string,
+    // id: string,
     open: boolean,
     onClose: () => void,
-    task: TaskModel
+    task?: TaskModel,
+    onOpenEditDialog:()=>void,
 }
 
-export const ShowTaskDialog = ({id, open, task, onClose}: props) => {
-    const [openModal, setOpenModal] = useState<boolean>(false)
+export const ShowTaskDialog = (({open, task, onClose, onOpenEditDialog}: props) => {
+    const id = useId()
     return (
         <>
-        <Dialog open={open} onClose={onClose} id={id}>
-            <Dialog.Title>
-                <p>
-                {task.title}
-                </p>
-                <FAB onClick={()=>{
-                    setOpenModal(true)
-                    onClose()
-                }}>
-                    <PencilLine />
-                </FAB>
-            </Dialog.Title>
-            <Dialog.HelpText>
-                {task.description}
-            </Dialog.HelpText>
-            <Dialog.Actions>
-                <Button onClick={onClose} type="button" fill={fillOptions.tonal}>
-                    Close
-                </Button>
-            </Dialog.Actions>
-        </Dialog>
-            <EditTodoDialog
-                id={`edit-todo-${task.id}`}
-                open={openModal}
-                task={task}
-                onClose={() => {
-                    setOpenModal(false)
-                }} />
+            <Dialog open={open} onClose={onClose} id={id + 'show-todo'}>
+                <DialogTitle>
+                    <p>
+                        {task?.title}
+                    </p>
+                    <FAB onClick={() => {
+                        // setOpenModal(true)
+                        // onClose()
+                        onOpenEditDialog()
+                    }}>
+                        <PencilLine />
+                    </FAB>
+                </DialogTitle>
+                <DialogHelpText>
+                    {task?.description}
+                </DialogHelpText>
+                <DialogActions>
+                    <Button onClick={onClose} type="button" fill={fillOptions.tonal}>
+                        Close
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            {/*{*/}
+            {/*    openModal && task ?*/}
+            {/*        <EditTodoDialog*/}
+            {/*            id={task?.id + `edit-todo`}*/}
+            {/*            open={openModal}*/}
+            {/*            task={task}*/}
+            {/*            onClose={() => {*/}
+            {/*                setOpenModal(false)*/}
+            {/*            }} />*/}
+            {/*        : <></>*/}
+            {/*}*/}
         </>
     );
-};
+});

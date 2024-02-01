@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 type props = {
     children: ReactNode
 }
-const isJalali = false;
+const isJalali = true;
 export const CalendarProvider = ({children}: props) => {
     const params = useParams<{ mode: CalendarShowModel, day: string }>()
     const theDay = useMemo(() => findDateFromParams(params.day ?? ""), [params.day])

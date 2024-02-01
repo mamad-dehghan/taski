@@ -1,44 +1,63 @@
 @use "../../../providers/theme/elevation";
 @use "../../../providers/theme/typography";
-.dialog{
+
+.dialog {
   display: flex;
   flex-flow: column nowrap;
   align-items: stretch;
   justify-content: center;
   max-height: 80%;
   border-radius: var(--radius-extra-large);
-  padding: 24px;
-  @include elevation.elevation-3();
+  padding-block: 24px;
+  @include elevation.elevation-0();
   @include elevation.elevation-shadow-3();
   //background-color: ;
   //max-width
   min-width: 280px;
   max-width: 560px;
+  animation: show-dialog 100ms linear;
 
-  .dialog-header{
-    color:hsl(var(--on-surface));
+  .dialog-header {
+    padding-inline: 24px;
+    color: hsl(var(--on-surface));
     @include typography.headlineSmall();
     padding-block-end: 8px;
   }
 
-  .dialog-help-text{
-    color:hsl(var(--on-surface-variant));
+  .dialog-help-text {
+    padding-inline: 24px;
+    color: hsl(var(--on-surface-variant));
     @include typography.bodyMedium();
     padding-block: 8px;
   }
 
-  .dialog-body{
+  .dialog-body {
+    padding-inline: 24px 16px;
     //TODO: fix
     //@include typography.bodyMedium();
-    //overflow-y: auto;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
     padding-block: 8px;
+    scrollbar-gutter: stable;
   }
 
-  .dialog-actions{
+  .dialog-actions {
+    padding-inline: 24px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     gap: 8px;
     padding-block-start: 8px;
+  }
+}
+
+@keyframes show-dialog {
+  0% {
+    scale: 0.1;
+  }
+  100% {
+    scale: unset;
   }
 }

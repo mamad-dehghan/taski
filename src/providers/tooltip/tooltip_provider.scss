@@ -5,28 +5,47 @@
   pointer-events: none;
 
   .tooltip1 {
+    transition: background-color 0s;
     position: absolute;
-    border-radius: var(--radius-extra-small);
     // inverse
-    background-color: hsl(var(--inverse-surface));
     color: hsl(var(--inverse-on-surface));
-    @include typography.bodySmall();
 
-    padding-inline: 0.5rem;
-    padding-block: 0.25rem;
-    white-space: pre;
+    &:not(.rich) {
+      background-color: hsl(var(--inverse-surface));
+      border-radius: var(--radius-extra-small);
+      @include typography.bodySmall();
+      padding-inline: 0.5rem;
+      padding-block: 0.25rem;
+      white-space: pre;
 
-    user-select: none;
-    pointer-events: none;
-    &:empty{
+      user-select: none;
+      pointer-events: none;
+
+    }
+
+    &:is(.rich) {
+      display: flex;
+      pointer-events: auto;
+    }
+
+
+    &:empty {
       display: none;
     }
   }
-  .tooltip-simulator{
-    @include typography.bodySmall();
-    padding-inline: 0.5rem;
-    padding-block: 0.25rem;
+
+  .tooltip-simulator {
     visibility: hidden;
     z-index: -1;
+
+    &:not(.rich) {
+      @include typography.bodySmall();
+      padding-inline: 0.5rem;
+      padding-block: 0.25rem;
+    }
+
+    &:is(.rich) {
+      display: inline-flex;
+    }
   }
 }

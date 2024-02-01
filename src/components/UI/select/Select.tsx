@@ -31,12 +31,7 @@ export const Select = <T extends propT>(
     }: props<T>) => {
     const [targetEl, setTargetEl] = useState<DOMRect | undefined>(undefined)
     const [open, setOpen] = useState<boolean>(false)
-    const [internalValue, setInternalValue] = useState<T | undefined>(initialValue)
-    // useEffect(() => {
-    //     // console.log("value changed", value)
-    //     if (internalValue)
-    //         onChange(internalValue)
-    // }, [internalValue]);
+    const [internalValue, setInternalValue] = useState<T | undefined>(value ?? initialValue)
     useEffect(() => {
         // null for not changing in value
         if (value !== null)
@@ -52,9 +47,7 @@ export const Select = <T extends propT>(
                 iconSide={"end"}
                 icon={open ? <CaretUp /> : <CaretDown />}
                 id={id}
-                // fill={}
                 onClick={(event) => {
-                    // console.log(JSON.stringify(event.target.getBoundingClientRect()) === JSON.stringify(event.currentTarget.getBoundingClientRect()))
                     // @ts-ignore
                     setTargetEl(pre => event.target.getBoundingClientRect() ?? pre)
                     setOpen(pre => !pre)

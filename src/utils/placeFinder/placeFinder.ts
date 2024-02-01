@@ -14,6 +14,15 @@ type marginObjectT = {
     left?: number,
     right?: number,
 }
+
+export type placeFinderOutputType = Partial<{
+    left: number,
+    right: number,
+    top: number,
+    bottom: number,
+    transform: string
+}>
+
 // type margin
 export type marginsT = Record<
     "container" |
@@ -36,11 +45,7 @@ export const placeFinder = (
             Y: 0
         }
     }
-): {
-    Y: number,
-    X: number
-} => {
-    // console.log('position',position,"target",targetEl, "container",container)
+): placeFinderOutputType => {
     const allMargins: Record<"container" |
         "targetEl", Required<marginObjectT>> = {
         container: {
@@ -66,24 +71,44 @@ export const placeFinder = (
 
     const haveRightSpace = () => (container.right - allMargins.container.right) - (targetEl.right + allMargins.targetEl.right) > currentEl.width
 
-    const getYTop = () => Math.min(
-        (targetEl.top - allMargins.targetEl.top) - currentEl.height,
-        container.bottom - allMargins.container.bottom - currentEl.height
+    // const haveTopCenterSpace = () => (targetEl.top - allMargins.targetEl.top) - (container.top + allMargins.container.top) > currentEl.height / 2
+
+    // const haveBottomCenterSpace = () => (container.bottom - allMargins.container.bottom) - (targetEl.bottom + allMargins.targetEl.bottom) > currentEl.height / 2
+
+    // const haveLeftCenterSpace = () => (targetEl.left - allMargins.targetEl.left) - (container.left + allMargins.container.left) > currentEl.width / 2
+
+    // const haveRightCenterSpace = () => (container.right - allMargins.container.right) - (targetEl.right + allMargins.targetEl.right) > currentEl.width / 2
+
+    const getYTop = () => Math.max(
+        container.top + allMargins.container.top,
+        Math.min(
+            (targetEl.top - allMargins.targetEl.top) - currentEl.height,
+            container.bottom - allMargins.container.bottom - currentEl.height
+        )
     )
 
     const getYBottom = () => Math.max(
-        targetEl.bottom + allMargins.targetEl.bottom,
-        container.top + allMargins.container.top
+        container.top + allMargins.container.top,
+        Math.min(
+            targetEl.bottom + allMargins.targetEl.bottom,
+            container.bottom - allMargins.container.bottom - currentEl.height
+        )
     )
 
-    const getXLeft = () => Math.min(
-        (targetEl.left - allMargins.targetEl.left) - currentEl.width,
-        container.right - allMargins.container.right - currentEl.width
+    const getXLeft = () => Math.max(
+        container.left + allMargins.container.left,
+        Math.min(
+            (targetEl.left - allMargins.targetEl.left) - currentEl.width,
+            container.right - allMargins.container.right - currentEl.width
+        )
     )
 
     const getXRight = () => Math.max(
-        targetEl.right + allMargins.targetEl.right,
-        container.left + allMargins.container.left
+        container.left + allMargins.container.left,
+        Math.min(
+            (targetEl.left - allMargins.targetEl.left) - currentEl.width,
+            targetEl.right + allMargins.targetEl.right,
+        )
     )
 
     const getXCenter = () => Math.max(
@@ -104,42 +129,82 @@ export const placeFinder = (
 // merge all min and max for X and Y
 
     for (const positionKey in position) {
-        let X = -1
-        let Y = -1
+        const pos: placeFinderOutputType = {}
         switch (position[positionKey].vertical) {
             case "top":
                 if (haveTopSpace())
-                    Y = getYTop()
+                    pos.bottom = Math.floor(container.height - (getYTop() + currentEl.height))
+                else
+                    continue
                 break
             case "bottom":
-                if (haveBottomSpace()) {
-                    Y = getYBottom()
-                    // console.log(Y)
-                }
+                if (haveBottomSpace())
+                    pos.top = Math.floor(getYBottom())
+                else
+                    continue
                 break
             case "center":
                 // add if and check for availability
-                Y = getYCenter()
+                pos.top = Math.floor(getYCenter())
+            // - currentEl.height / 2
+            // pos.transform = 'translate(0, 50%)'
         }
         switch (position[positionKey].horizontal) {
             case "left":
                 if (haveLeftSpace())
-                    X = getXLeft()
+                    pos.right = Math.floor(container.width - (getXLeft() + currentEl.width))
+                else
+                    continue
                 break
             case "right":
                 if (haveRightSpace())
-                    X = getXRight()
+                    pos.left = Math.floor(getXRight())
+                else
+                    continue
                 break
             case "center":
-                X = getXCenter()
+                // if (haveLeftCenterSpace()){
+                //     pos.right = container.width - (getXCenter() +currentEl.width/2)
+                //     pos.transform = 'translate(50%, 0)'
+                // }else {
+                pos.left = Math.floor(getXCenter())
+            // - currentEl.width / 2
+            // pos.transform = 'translate(50%, 0)'
+            // }
         }
-        if (X !== -1 && Y !== -1) {
-            // move between switches
-            return {X, Y}
-        }
+        return pos
     }
-    // console.log(Date.now() - time)
-    //         console.log(X,Y)
-    return {X: -1, Y: -1}
-    // add force for first
+
+    const pos: placeFinderOutputType = {}
+
+    switch (position[0].vertical) {
+        case "top":
+            pos.bottom = Math.floor(container.height - (getYTop() + currentEl.height))
+            break
+        case "bottom":
+            pos.top = Math.floor(getYBottom())
+            break
+        case "center":
+            pos.top = Math.floor(getYCenter())
+        // - currentEl.height / 2
+        // pos.transform = 'translate(0, 50%)'
+    }
+    switch (position[0].horizontal) {
+        case "left":
+            pos.right = Math.floor(container.width - (getXLeft() + currentEl.width))
+            break
+        case "right":
+            pos.left = Math.floor(getXRight())
+            break
+        case "center":
+            // if (haveLeftCenterSpace()){
+            //     pos.right = container.width - (getXCenter() +currentEl.width/2)
+            //     pos.transform = 'translate(50%, 0)'
+            // }else {
+            pos.left = Math.floor(getXCenter())
+        // - currentEl.width / 2
+        // pos.transform = 'translate(50%, 0)'
+        // }
+    }
+    return pos
 }

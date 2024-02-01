@@ -1,14 +1,14 @@
 .dialogs-wrapper {
-  position: fixed;
-  width: inherit;
-  height: inherit;
+  //position: fixed;
+  //width: inherit;
+  //height: inherit;
   overflow: hidden;
   display: grid;
   grid-template-areas: "dialog";
   align-items: stretch;
   justify-content: stretch;
   z-index: 100;
-  inset: 0;
+  //inset: 0;
 
   &:empty{
     display: none;

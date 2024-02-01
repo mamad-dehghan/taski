@@ -12,9 +12,10 @@ type assistChip = ButtonHTMLAttributes<HTMLButtonElement> & {
     fill: fillOptions.outline | fillOptions.elevated
 }
 type filterChip = ButtonHTMLAttributes<HTMLButtonElement> & {
-    filter: true,
+    filter?: true,
     enable: boolean,
-    fill: fillOptions.outline | fillOptions.elevated
+    fill: fillOptions.outline | fillOptions.elevated,
+    Icon?: Icon,
 }
 
 type props = assistChip | filterChip
@@ -59,6 +60,7 @@ export const FilterChip = (
         children,
         className,
         fill,
+        Icon = Check,
         ...others
     }: filterChip) => {
     return (
@@ -77,7 +79,7 @@ export const FilterChip = (
             <>
                 {
                     enable ?
-                        <Check weight="bold"/>
+                        <Icon weight="bold"/>
                         :
                         undefined
                 }

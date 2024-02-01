@@ -25,10 +25,26 @@
     border-radius: var(--radius-small);
     padding-inline: 12px;
     //height: 64px;
-    .left-section{
+    .left-section {
       display: flex;
       align-items: center;
       gap: 1rem;
+    }
+
+
+    .right-section {
+      .header-searchbar--wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        .header-searchbar--input {
+
+          display: none;
+          &:is(.open){
+            display: flex;
+          }
+        }
+      }
     }
   }
 
@@ -102,19 +118,20 @@
     @include elevation.elevation-0();
   }
 
-  .add-todo-fab{
+  .add-todo-fab {
     position: absolute;
     z-index: 10;
     inset-block-end: 1rem;
     inset-inline-end: 1rem;
   }
 }
-.components-panel{
-  a{
-    color: hsl(var(--on-surface));
-    &:hover{
-    color: hsl(var(--primary));
 
+.components-panel {
+  a {
+    color: hsl(var(--on-surface));
+
+    &:hover {
+      color: hsl(var(--primary));
     }
   }
 }

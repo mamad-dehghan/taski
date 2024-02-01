@@ -1,7 +1,7 @@
 {
     "name": "Taski",
     "short_name": "Taski",
-    description: "A Fantastic todo list",
+    "description": "A Fantastic todo list",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",
@@ -12,11 +12,16 @@
             "src": "/android-chrome-512x512.png",
             "sizes": "512x512",
             "type": "image/png"
+        },
+        {
+            "src": "/safari-pinned-tab.svg",
+            "size": "any",
+            "purpose": "maskable"
         }
     ],
     "start_url": "/dashboard",
-    "theme_color": "#ffffff",
-    "background_color": "#ffffff",
+    "theme_color": "hsl(260, 100%, 87%)",
+    "background_color": "hsl(255, 7%, 11%)",
     "display": "standalone",
-    "scope": "/dashboard",
+    "scope": "/dashboard"
 }

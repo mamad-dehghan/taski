@@ -1,6 +1,6 @@
-import React, {useDeferredValue, useEffect, useRef, useState} from 'react';
+import React, {CSSProperties, memo, useDeferredValue, useEffect, useRef, useState} from 'react';
 import {PopupType} from "./popupContext";
-import {marginsT, placeFinder, positionType} from "../../utils/placeFinder/placeFinder";
+import {marginsT, placeFinder, placeFinderOutputType, positionType} from "../../utils/placeFinder/placeFinder";
 import FocusTrap from "focus-trap-react";
 
 const defaultPosition: positionType = [{
@@ -11,7 +11,7 @@ const defaultPosition: positionType = [{
     horizontal: "left"
 }]
 
-export const SinglePopup = React.memo((
+export const SinglePopup = memo((
     {
         popup,
         hidePopup,
@@ -29,7 +29,7 @@ export const SinglePopup = React.memo((
     // console.log(nested, "nn")
 
     const ref = useRef<HTMLSpanElement>(null)
-    const [xOOy0, setXOOy0] = useState<{ Y: number, X: number } | undefined>(undefined)
+    const [xOOy0, setXOOy0] = useState<placeFinderOutputType | undefined>(undefined)
     const deferOpen = useDeferredValue(Boolean(xOOy0))
     useEffect(() => {
         if (ref.current) {
@@ -68,9 +68,15 @@ export const SinglePopup = React.memo((
                     ? <>
                         <span onClick={e => e.stopPropagation()} key={popup.id + "original"}
                               style={{
-                                  top: xOOy0?.Y,
-                                  left: xOOy0?.X
-                              }}
+                                  ...xOOy0,
+                                  // "--real-width":Math.floor(ref.current?.getBoundingClientRect().width??0),
+                                  // "--real-height":Math.floor(ref.current?.getBoundingClientRect().height??0),
+                                  // "--target-left":Math.floor(popup.targetEl.left),
+                                  // "--target-right":Math.floor(popup.targetEl.right),
+                                  // "--target-top":Math.floor(popup.targetEl.top),
+                                  // "--target-bottom":Math.floor(popup.targetEl.bottom),
+                                  // transform : `${xOOy0.transform} scale()`
+                              } as CSSProperties}
                               className="menu1">
                         <FocusTrap
                             active={deferOpen}

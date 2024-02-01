@@ -2,7 +2,7 @@ import {Context, createContext, ReactElement, ReactNode} from "react";
 
 export type TooltipT = {
     id: string,
-    content: string,
+    content: string|ReactNode,
     element: HTMLDivElement
 }
 type tooltipContextT = {

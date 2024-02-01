@@ -245,7 +245,8 @@
   @include light-theme();
 
   *::selection {
-    background-color: hsla(255, 7%, 11%, 0.12) !important;
+    //background-color: hsla(255, 7%, 11%, 0.12) !important;
+    background-color: hsla(var(--on-background), 0.18) !important;
   }
 }
 
@@ -253,7 +254,10 @@
   @include dark-theme();
 
   *::selection {
-    background-color: hsla(312, 9%, 89%, 0.12) !important;
+    //background-color: hsla(312, 9%, 89%, 0.12) !important;
+    background-color: hsla(var(--on-background), 0.18) !important;
+    padding-inline: 3px;
+    border-radius: 2px;
   }
 
   /*--surface: 264, 7%, 29%;*/
@@ -290,6 +294,10 @@
   background-image: linear-gradient(0deg,
           hsla($color, var(--state-layer-opacity)),
           hsla($color, var(--state-layer-opacity)));
+
+  //border-image: linear-gradient(0deg,
+  //        hsla($color, var(--state-layer-opacity)),
+  //        hsla($color, var(--state-layer-opacity)));
 }
 
 //TODO: add disabled theme: on-surface - 0.38/0.12
@@ -316,7 +324,7 @@
 }
 
 @mixin errorTheme {
-    --color: var(--error);
+  --color: var(--error);
   --on-color: var(--on-error);
   --container: var(--error-container);
   --on-container: var(--on-error-container);

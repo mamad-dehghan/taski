@@ -1,6 +1,7 @@
 import {Context, createContext, memo, ReactNode, useState} from "react";
 import "./dialog_provider.scss"
 import FocusTrap from "focus-trap-react";
+import {AppLayer} from "../appLayer/appLayer";
 
 export type dialogContextT = {
     addDialog: (id: string, component: ReactNode) => void,
@@ -20,7 +21,7 @@ type props = {
 }
 export const DialogProvider = ({children}: props) => {
     const [dialogs, setDialogs] = useState<dialogT[]>([])
-
+    // console.log(dialogs)
     // const addDialog = useCallback((id: string, component: ReactNode) => {
     //     setDialogs(prevState => {
     //         const index = prevState.findIndex(item => item.id === id);
@@ -66,7 +67,7 @@ export const DialogProvider = ({children}: props) => {
                 }
             }}>
             {children}
-            <div className="dialogs-wrapper">
+            <AppLayer className="dialogs-wrapper">
                 {dialogs.map(item => {
                     return (
                         <SingleDialog onClose={()=>{setDialogs(prevState => prevState.filter(item2 => item2.id !== item.id))}} key={item.id} item={item} />
@@ -75,7 +76,7 @@ export const DialogProvider = ({children}: props) => {
                         // </div>
                     )
                 })}
-            </div>
+            </AppLayer>
         </dialogContext.Provider>
     )
 }

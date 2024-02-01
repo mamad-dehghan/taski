@@ -1,5 +1,5 @@
 export type CategoryModel = {
-    // id: number,
+    id: number,
     title: string,
     description?: string,
     color: string,

@@ -16,12 +16,12 @@ type props = {
 }
 
 export const PreferenceSection = ({preference}: props) => {
-    console.log(preference)
+    // console.log(preference)
     const {overrideTheme} = useTheme()
     const preferenceForm = useFormik<Record<string, string>>({
         initialValues: JSON.parse(preference),
         onSubmit: (values) => {
-            console.log(values)
+            // console.log(values)
             overrideTheme({
                 "--primary-hue": +values?.["primary"],
                 "--secondary-hue": +values?.["secondary"],
@@ -33,7 +33,7 @@ export const PreferenceSection = ({preference}: props) => {
     // console.log(`hsl(${Math.floor(+preferenceForm.values["primary"]?? 0)} 0% 0% / 1)`)
     // console.log(new ColorTranslator(`hsl(${preferenceForm.values["primary"]?? 0}, 0%, 0%)`).HEX)
     // console.log(new ColorTranslator(`hsl(${Math.floor(+preferenceForm.values["primary"]?? 0)} 0% 0% / 1)`).H)
-    console.log(preferenceForm.values["primary"],new ColorTranslator({h:+preferenceForm.values["primary"],s:"34%",l:"48%"}).HEX)
+    // console.log(preferenceForm.values["primary"],new ColorTranslator({h:+preferenceForm.values["primary"],s:"34%",l:"48%"}).HEX)
     return (
         <form className="section" onSubmit={preferenceForm.handleSubmit}>
             <div className="section-header">

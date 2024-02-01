@@ -1,24 +1,87 @@
-.menu-section{
+.menu-section {
   //pointer-events: none;
   z-index: 200;
-  &:not(:empty){
+
+  &:not(:empty) {
     display: block;
   }
-  &:empty{
+
+  &:empty {
     display: none;
   }
+
   //pointer-events: none;
   .menu1 {
     position: absolute;
     user-select: none;
     pointer-events: auto;
+    animation: popup-transform 50ms linear;
+    //transform: scale(mi);
     //&:empty{
     // pointer-events: auto;
     //}
   }
-  .menu-simulator{
+
+  .menu-simulator {
     display: inline-block;
     visibility: hidden;
     z-index: -1;
+  }
+}
+
+@keyframes popup-transform {
+  0%{
+    scale: 0.1;
+    //clip-path: polygon(50% 50%,50% 50%,50% 50%,50% 50%);
+    //clip-path: polygon(
+    //                0 0,
+    //                0 calc(calc(var(--target-bottom) - var(--target-top)) * 1px),
+    //                0 calc(calc(var(--target-bottom) - var(--target-top)) * 1px),
+    //                0 0,
+    //);
+  }
+  50% {
+    //left: var(--target-left) px;
+    //right: var(--target-right) px;
+    //top: var(--target-top) px;
+    //bottom: var(--target-bottom) px;
+    //left: calc(var(--target-left) * 1px);
+    //right: calc(var(--target-right) * 1px);
+    //top: calc(var(--target-top) * 1px);
+    //bottom: calc(var(--target-bottom) * 1px);
+    //clip-path: polygon(
+    //                0 0,
+    //                0 calc(calc(var(--target-bottom) - var(--target-top)) * 1px),
+    //                calc(calc(var(--target-right) - var(--target-left)) * 1px) calc(calc(var(--target-bottom) - var(--target-top)) * 1px),
+    //                calc(calc(var(--target-right) - var(--target-left)) * 1px) 0,
+    //);
+    //clip-path: polygon(
+    //                0 0,
+    //                0 calc(calc(var(--target-bottom) - var(--target-top)) * 1px),
+    //                calc(var(--real-width) * 1px) calc(calc(var(--target-bottom) - var(--target-top)) * 1px),
+    //                calc(var(--real-width) * 1px) 0,
+    //);
+  }
+  100% {
+    scale: 1;
+    //clip-path: polygon(
+    //                0 0,
+    //                0 100%,
+    //                100% 100%,
+    //                100% 0);
+    //--target-left:var(--real-left,var(--target-left));
+    //--target-right:var(--real-right,var(--target-right));
+    //--target-top:var(--real-top,var(--target-top));
+    //--target-bottom:var(--real-bottom,var(--target-bottom));
+    //left: unset;
+    //right: unset;
+    //top: unset;
+    //bottom: unset;
+    //clip-path: polygon(
+    //                0 0,
+    //                0 calc(var(--real-height) * 1px),
+    //                calc(var(--real-width) * 1px) calc(var(--real-height) * 1px),
+    //                calc(var(--real-width) * 1px) 0,
+    //);
   }
 }

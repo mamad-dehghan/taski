@@ -10,7 +10,12 @@ const convertToDexieTaskModel = ({startTime, endTime, ...task}: Omit<TaskModel, 
     }
 }
 
-export const convertToTaskModel =  ({startTime, endTime, ...task}: Omit<DexieTaskModel, "id">): Omit<TaskModel, "id"> => {
+export const convertToTaskModel = (
+    {
+        startTime,
+        endTime,
+        ...task
+    }: Omit<DexieTaskModel, "id">): Omit<TaskModel, "id"> => {
     return {
         ...task,
         startTime: new Date(startTime),
@@ -19,12 +24,18 @@ export const convertToTaskModel =  ({startTime, endTime, ...task}: Omit<DexieTas
 }
 
 export const deleteTaskInDatabase = async (id: number): Promise<number> => {
-    db.tasks.delete(id)
+    await db.tasks.delete(id)
     return id
 };
-
-export const createTaskInDatabase = async (task: Omit<TaskModel, "id">): Promise<number> =>
-    await db.tasks.add(convertToDexieTaskModel(task))
+// TODO: avoid create when two task has override // except for daily tasks
+export const createTaskInDatabase = async (task: Omit<TaskModel, "id">): Promise<number> => {
+    const conflictTasks = await getConflictTask(task)
+    console.log(conflictTasks)
+    if (conflictTasks) {
+        throw new Error("رویداد با رویدادی دیگر تداخل دارد.", {cause: "Conflict"})
+    }
+    return await db.tasks.add(convertToDexieTaskModel(task))
+}
 
 export const updateTaskInDatabase = async ({id, ...task}: TaskModel): Promise<TaskModel> => {
     const convertedTask = convertToDexieTaskModel(task)
@@ -32,8 +43,8 @@ export const updateTaskInDatabase = async ({id, ...task}: TaskModel): Promise<Ta
     return {id, ...task}
 }
 
-export const readAllTaskFromDatabase = async () => {
-    return db.tasks.toArray()
+export const readAllTaskFromDatabase = async (): Promise<DexieTaskModel[]> => {
+    return db.tasks.toArray() as unknown as Promise<DexieTaskModel[]>
 }
 
 export const readTasksFromDatabase = async (startTime: Date, endTime: Date) => {
@@ -70,3 +81,14 @@ export const readDayTasksCountFromDatabase = async (day: Date) => {
 //         .toArray()
 //     return result
 // }
+
+const getConflictTask = async (task: Pick<TaskModel, "startTime" | "endTime" | "categoryId" | "isAllDay">): Promise<Omit<DexieTaskModel, "id"> | undefined> => {
+    if (!task.categoryId || task.isAllDay)
+        return undefined
+    return db.tasks
+        .where("[startTime+endTime]")
+        .below([task.endTime.getTime(), Infinity])
+        .and((t) => t.endTime > task.startTime.getTime())
+        // .and(findTask => findTask.categoryId === task.categoryId)
+        .first()
+}

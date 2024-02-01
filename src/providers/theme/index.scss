@@ -1,6 +1,7 @@
 @use "palette";
 @use "typography";
 @use "elevation";
+@use "transition";
 
 .theme-provider {
   width: inherit;
@@ -10,17 +11,21 @@
 
 //TODO: add z-index variables
 
-.scroller {
-  container: scrollbar-container / inline-size;
-}
+//.scroller {
+//  container: scrollbar-container / inline-size;
+//}
 
 *{
-  --scrollbar-size: 1rem;
+  transition: background-color 200ms, color 200ms;
+
+  scrollbar-width: thin;
+  //scrollbar-gutter: both-edges;
+  //--scrollbar-size: 1rem;
   scrollbar-color: hsl(var(--on-surface-variant)) hsl(var(--surface-variant));
 
-  &::-webkit-scrollbar {
-    width: var(--scrollbar-size);
-  }
+  //&::-webkit-scrollbar {
+  //  width: var(--scrollbar-size);
+  //}
 
   &::-webkit-scrollbar-track {
     background: hsl(var(--surface-variant));
@@ -33,10 +38,10 @@
   }
 }
 
-@container scrollbar-container (max-width: 400px) {
-  .scroller {
-    &::-webkit-scrollbar {
-      --scrollbar-size: 0.5rem;
-    }
-  }
-}
+//@container scrollbar-container (max-width: 400px) {
+//  .scroller {
+//    &::-webkit-scrollbar {
+      //--scrollbar-size: 0.5rem;
+    //}
+  //}
+//}

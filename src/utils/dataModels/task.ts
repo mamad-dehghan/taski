@@ -1,5 +1,3 @@
-// import {number, string} from "yup";
-
 export type TaskModel = {
     id: number,
     title: string,
@@ -7,13 +5,11 @@ export type TaskModel = {
     startTime: Date,
     endTime: Date,
     File?: File[] | FileList,
-    // tags: string[],
     tags?: string,
     priority: "low" | "medium" | "high",
-    // progress: number
-    progress: number,
-    category?: string,
-    // user_id:number,
+    isDone: boolean,
+    isAllDay:boolean,
+    categoryId?: number,
 }
 export type DexieTaskModel = {
     id: number,
@@ -22,11 +18,9 @@ export type DexieTaskModel = {
     startTime: number,
     endTime: number,
     File?: File[] | FileList,
-    // tags: string[],
     tags?: string,
     priority: "low" | "medium" | "high",
-    // progress: number
-    progress: number,
-    category?: string,
-    // user_id:number,
+    isDone: boolean,
+    isAllDay:boolean,
+    categoryId?: number,
 }

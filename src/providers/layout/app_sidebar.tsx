@@ -8,7 +8,7 @@ import {AppSidePanel} from "./app_side_panel";
 import classNames from "classnames";
 import {useNavigate} from "react-router-dom";
 import {Menu} from "../../components/UI/menu/menu";
-import {UserCircle, Calendar, FadersHorizontal, Gear, Moon, Rows, SpotifyLogo, SunDim} from "@phosphor-icons/react";
+import {Calendar, FadersHorizontal, Gear, Moon, Rows, SpotifyLogo, SunDim, UserCircle} from "@phosphor-icons/react";
 
 type props = {}
 
@@ -19,7 +19,8 @@ const links = [{
 export enum panels {
     calendar = "calendar",
     schedule = "schedule",
-    preference = "preference"
+    preference = "preference",
+    categories = "categories"
 }
 
 export const AppSidebar = ({}: props) => {
@@ -95,7 +96,15 @@ export const AppSidebar = ({}: props) => {
                             Icon={Calendar}
                             fill={fillOptions.link}
                             onClick={onsideItemClick(panels.calendar)}
-                            enable={false} />
+                            enable={activePanel === "calendar"} />
+                    </Tooltip>
+                    <Tooltip title="categories">
+                        <IconButton
+                            dataFocused={activePanel === "categories"}
+                            Icon={Rows}
+                            fill={fillOptions.link}
+                            onClick={onsideItemClick(panels.categories)}
+                            enable={activePanel==="categories"} />
                     </Tooltip>
                     {/*<Tooltip title="schedule">*/}
                     {/*<Tooltip title="components">*/}
@@ -117,7 +126,8 @@ export const AppSidebar = ({}: props) => {
                 </div>
                 <div className="bottom-section">
                     <Tooltip title="calendar">
-                        <IconButton onClick={() => navigate("/dashboard/calendar/month/2023-12-20")} Icon={FadersHorizontal} fill={fillOptions.link}
+                        <IconButton onClick={() => navigate("/dashboard/calendar/month/2023-12-20")}
+                                    Icon={FadersHorizontal} fill={fillOptions.link}
                                     enable={false} />
                     </Tooltip>
                     <Tooltip title="login">

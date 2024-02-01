@@ -1,0 +1,15 @@
+@use "../../providers/theme/elevation";
+
+.date-and-time-picker {
+  @include elevation.elevation-0();
+  @include elevation.elevation-shadow-1();
+  //background-color: hsl(var(--background));
+  border-radius: 1.5rem;
+
+  .date-and-time-picker--actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 1.5rem 1.5rem;
+  }
+}

@@ -11,7 +11,7 @@ export const PopupProvider = ({children}: props) => {
     const [menus, setMenus] = useState<PopupType[]>([])
     // console.log(menus)
     const menuIsOpen = useCallback((id: string) =>
-            Boolean(menus.findIndex(item => item.id === id) !== -1)
+            (menus.findIndex(item => item.id === id) !== -1)
         , [menus])
 
     const hidePopup = useCallback((id: string) => {
@@ -77,7 +77,7 @@ export const PopupProvider = ({children}: props) => {
     return (
         <PopupContext.Provider value={{
             showPopup,
-                togglePopup,
+            togglePopup,
             hidePopup,
             menuIsOpen
         }}>
@@ -87,7 +87,7 @@ export const PopupProvider = ({children}: props) => {
                 onClick={clearAll}
             >
                 {
-                    menus.map((item, index) =>
+                    menus.map((item) =>
                         <AppLayer
                             key={item.id + "out"}
                             className="menu-section"

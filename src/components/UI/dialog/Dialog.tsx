@@ -1,4 +1,4 @@
-import React, {ReactNode, useDeferredValue, useEffect} from 'react';
+import React, {memo, ReactNode, useDeferredValue, useEffect} from 'react';
 import {useDialog} from "../../../utils/hooks/useDialog";
 
 import './dialog.scss'
@@ -12,9 +12,10 @@ type props = {
 }
 
 // TODO: add memoized
-export const Dialog = ({id, open, children, onClose}: props) => {
+export const Dialog = memo(({id, open, children, onClose}: props) => {
     const {addDialog, closeDialog} = useDialog()
     const deferOpen = useDeferredValue(open)
+    // console.log(deferOpen, open,id)
     useEffect(() => {
         if (open) {
             addDialog(
@@ -22,36 +23,42 @@ export const Dialog = ({id, open, children, onClose}: props) => {
                 <FocusTrap
                     active={deferOpen}
                     focusTrapOptions={{
+                        allowOutsideClick: true,
                         onDeactivate:()=> {
-                            onClose()
+                            // console.log('pkp', open)
+                            // if (!open)
+                                onClose()
                         }
                     }}
                 >
                     <div className="dialog">
                         {children}
                      </div>
-                </FocusTrap>
+                 </FocusTrap>
             )
         } else {
             closeDialog(id)
+            // console.log('close',id)
         }
     }, [id, deferOpen, children]);
 
     useEffect(() => {
         return () => {
             closeDialog(id)
+            // onClose()
+            // console.log('close effect',id)
         }
     }, [id]);
     return (
         <></>
     );
-};
+});
 
 type titleProps = {
     children: ReactNode
 }
 
-Dialog.Title = ({children}: titleProps) => {
+export const DialogTitle = ({children}: titleProps) => {
     return (
         <div className="dialog-header">
             {children}
@@ -63,7 +70,7 @@ type helpTextProps = {
     children: ReactNode
 }
 
-Dialog.HelpText = ({children}: helpTextProps) => {
+export const DialogHelpText = ({children}: helpTextProps) => {
     return (
         <div className="dialog-help-text">
             {children}
@@ -75,7 +82,7 @@ type bodyProps = {
     children: ReactNode
 }
 
-Dialog.Body = ({children}: bodyProps) => {
+export const DialogBody = ({children}: bodyProps) => {
     return (
         <div className="dialog-body">
             {children}
@@ -87,7 +94,7 @@ type actionProps = {
     children: ReactNode
 }
 
-Dialog.Actions = ({children}: actionProps) => {
+export const DialogActions = ({children}: actionProps) => {
     return (
         <div className="dialog-actions">
             {children}

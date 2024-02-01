@@ -45,6 +45,7 @@ export const Input = React.memo(React.forwardRef<HTMLInputElement, inputT>((
         iconStart,
         iconEnd,
         fullWidth,
+        className,
         // fill,
         ...others
     }: inputT, ref) => {
@@ -66,7 +67,10 @@ export const Input = React.memo(React.forwardRef<HTMLInputElement, inputT>((
                 color === colorOptions.primary && 'element-primary',
                 color === colorOptions.secondary && 'element-secondary',
                 color === colorOptions.tertiary && 'element-tertiary',
-                color === colorOptions.success && 'element-success'
+                color === colorOptions.success && 'element-success',
+                fullWidth && "full-width",
+                others.disabled && "disabled",
+                className
             )}
             data-support-text={supportText}
             data-has-error={hasError ? "true" : "false"}

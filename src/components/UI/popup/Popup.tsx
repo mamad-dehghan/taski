@@ -49,10 +49,10 @@ export const Popup = ({children, open = true, target, onClose, id, position, mar
                 },
                 parentId
             )
-            console.log("open", id)
+            // console.log("open", id)
         } else {
             hidePopup(id)
-            console.log("close", id)
+            // console.log("close", id)
         }
     }, [target, parentId, open]);
     return (

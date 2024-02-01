@@ -1,5 +1,5 @@
-import React from 'react';
-import {Dialog} from "../UI/dialog/Dialog";
+import React, {useCallback, useId} from 'react';
+import {Dialog, DialogActions, DialogBody, DialogHelpText, DialogTitle} from "../UI/dialog/Dialog";
 import {Button} from "../UI/button/Button";
 import {Label} from "../UI/label/Label";
 import {Input} from "../UI/input/Input";
@@ -7,22 +7,32 @@ import {useFormik} from "formik";
 import {TaskModel} from "../../utils/dataModels/task";
 import {taskValidations} from "../../utils/modelValidations/task";
 import {object} from "yup";
-import {fillOptions} from "../../providers/theme/types";
+import {colorOptions, fillOptions} from "../../providers/theme/types";
 import {DatePickerPopup} from "../datePicker/DatePickerPopup";
 import {Select} from "../UI/select/Select";
 import dayjs from "dayjs";
 import {updateTaskInDatabase} from "../../utils/database/task";
+import {useLiveQuery} from "dexie-react-hooks";
+import {readAllCategories} from "../../utils/database/category";
+import {TagInput} from "../tagInput/TagInput";
+import {DateAndTimePicker} from "../DateAndTimePicker/DateAndTimePicker";
+import {Shrink} from "../UI/Shrink/Shrink";
+import {Switch} from "../UI/switch/Switch";
 
 type props = {
-    id: string,
+    // id: string,
     open: boolean,
     onClose: () => void,
     onSubmit?: () => void,
     task: TaskModel
 }
 
-export const EditTodoDialog = ({id, open, task, onClose}: props) => {
-    const form = useFormik({
+export const EditTodoDialog = ({ open, task, onClose}: props) => {
+    const categories = useLiveQuery(readAllCategories,[open])??[]
+    // console.log(categories)
+    const id = useId()
+    // console.log(categories)
+    const form = useFormik<TaskModel>({
         initialValues: task,
         validationSchema: object().shape(taskValidations),
         onSubmit: values => {
@@ -32,14 +42,20 @@ export const EditTodoDialog = ({id, open, task, onClose}: props) => {
                 .finally(onClose)
         }
     })
+
+    const handleDatePickerChange = useCallback((field: "startTime" | "endTime") => {
+        return (value:Date) =>
+            form.setFieldValue(field, value)
+    }, [])
+
     // console.log(form.values.title)
     // console.log(dayjs(form.values.startTime).format("HH:mm:ss"))
     return (
         <Dialog open={open} onClose={onClose} id={id}>
             <form style={{display: "contents"}} onSubmit={form.handleSubmit}>
-                <Dialog.Title>{task.title}</Dialog.Title>
-                <Dialog.HelpText>{task.description}</Dialog.HelpText>
-                <Dialog.Body>
+                <DialogTitle>{task.title}</DialogTitle>
+                <DialogHelpText>{task.description}</DialogHelpText>
+                <DialogBody>
                     <Label label={"title"} id={"title"}>
                         <Input
                             autoFocus
@@ -60,18 +76,20 @@ export const EditTodoDialog = ({id, open, task, onClose}: props) => {
                             onChange={form.handleChange} />
                     </Label>
                     <Label label={"tags"} id={"tags"}>
-                        <Input
+                        <TagInput
                             id={'tags'}
                             name={'tags'}
-                            value={form.values.tags}
+                            value={form.values.tags || ""}
                             hasError={form.errors['tags'] !== undefined}
                             supportText={form.errors['tags']}
-                            onChange={form.handleChange} />
+                            onChange={(value: string) => form.setFieldValue("tags", value, true)}
+                        />
                     </Label>
                     <Label label={"priority"} id={"priority"}>
                         <Select
                             id={"priority"}
-                            initialValue={"low"}
+                            // color={colorOptions.secondary}
+                            value={form.values.priority}
                             options={[
                                 {name: "low", value: "low"},
                                 {name: "medium", value: "medium"},
@@ -79,28 +97,38 @@ export const EditTodoDialog = ({id, open, task, onClose}: props) => {
                             ]}
                             onChange={(value) => form.setFieldValue("priority", value)} />
                     </Label>
+                    <Label label={"category"} id={"category"}>
+                        <Select
+                            id={"category"}
+                            // color={colorOptions.secondary}
+                            value={form.values.categoryId}
+                            options={categories.map(c => ({value: c.id, name: c.title}))}
+                            onChange={(value) => form.setFieldValue("categoryId", value)}
+                        />
+                    </Label>
                     <Label label="start time" id="startTime">
-                        <input type={"time"}
-                               id={"startTime"}
-                               value={dayjs(form.values.startTime).format("HH:mm:ss")}
-                               onChange={event=>form.setFieldValue("startTime", dayjs(`${dayjs(form.values.startTime).format("YYYY-MM-DD")} ${event.target.value}`,"YYYY-MM-DD hh:mm:ss").toDate())} />
-                                {/*onChange={event => form.setFieldValue("startTime", new Date(new Date(form.values.startTime).setHours(+event.target.value.split(":")[0], +event.target.value.split(":")[1], +event.target.value.split(":")[2])))} />*/}
-                        <DatePickerPopup id={"startTime"} multiSelect={false} onChange={form.setFieldValue}
-                                         initialValue={form.values.startTime} />
+                        <DateAndTimePicker
+                            value={form.values.startTime}
+                            onChange={handleDatePickerChange("startTime")}
+                            sections={form.values.isAllDay ? ["date"] : ["time","date"]}
+                        />
                     </Label>
-                    <Label label="end time" id="endTime">
-                        <input type={"time"}
-                               id={"endTime"}
-                               value={dayjs(form.values.endTime).format("HH:mm:ss")}
-                               onChange={event => form.setFieldValue("endTime", new Date(new Date(form.values.endTime).setHours(+event.target.value.split(":")[0], +event.target.value.split(":")[1], +event.target.value.split(":")[2])))} />
-                        <DatePickerPopup id={"endTime"} multiSelect={false} onChange={form.setFieldValue}
-                                         initialValue={form.values.endTime} />
+                    <Label label={"All day"} id={"isAllDay"}>
+                        <Switch id={"isAllDay"} checked={form.values.isAllDay} onChange={form.handleChange} />
                     </Label>
-                </Dialog.Body>
-                <Dialog.Actions>
+                    <Shrink direction={"up"} active={form.values.isAllDay}>
+                        <Label label="end time" id="endTime">
+                            <DateAndTimePicker
+                                value={form.values.endTime}
+                                onChange={handleDatePickerChange("endTime")}
+                            />
+                        </Label>
+                    </Shrink>
+                </DialogBody>
+                <DialogActions>
                     <Button fill={fillOptions.outline} onClick={onClose} type="reset">cancel</Button>
                     <Button disabled={!form.isValid} type="submit">edit</Button>
-                </Dialog.Actions>
+                </DialogActions>
             </form>
         </Dialog>
     );

@@ -1,0 +1,53 @@
+@mixin shrinkUp {
+  animation: shrinkUpAnimation linear 5000ms;
+  transition: all 2s;
+}
+
+@keyframes shrinkUpAnimation {
+  0% {
+    height: auto;
+  }
+  99% {
+    height: 0;
+    clip-path: polygon(0 0, 0 0);
+  }
+  100% {
+    display: none;
+  }
+}
+
+@mixin shrinkLeft {
+  animation: shrinkLeftAnimation linear 500ms;
+}
+
+@keyframes shrinkLeftAnimation {
+  0% {
+    width: auto;
+  }
+  99% {
+    width: 0;
+    clip-path: polygon(0 0, 0 0);
+  }
+  100% {
+    display: none;
+  }
+}
+
+.shrink {
+//transition: all 1s ;
+  &.shrink-up {
+    //animation: shrinkUpAnimation linear 500ms;
+    //display: none;
+    height: 0;
+    clip-path: polygon(0 0, 0 0);
+    //margin-block-end: 0;
+    display:none;
+    //visibility: hidden;
+  }
+  &:not(.shrink-up){
+    height: auto;
+    //clip-path: polygon(0 0 ,0 100%, 100% 100%, 100% 0);
+    //margin-block-end: 100%;
+  }
+
+}

@@ -7,48 +7,49 @@ import {CalendarContext} from "../calendarContext/calendarContext";
 import {Select} from "../../components/UI/select/Select";
 import {useNavigate} from "react-router-dom";
 import dayjs from "dayjs";
+import {SearchBar} from "./SearchBar/SearchBar";
 
 type props = {}
 
 export const AppHeader = ({}: props) => {
-    const {mode, day} = useContext(CalendarContext)
+    const {mode, day, dayjsLocal} = useContext(CalendarContext)
     const navigate = useNavigate()
-    const handleChangeMode = useCallback((value: string) => {
-        navigate(`/dashboard/calendar/${value}/${dayjs(day).format("YYYY-MM-DD")}`)
-    }, [day, mode])
+    const handleChangeMode = useCallback((mode: string) => {
+        navigate(`/dashboard/calendar/${mode}/${dayjsLocal(dayjs(day)).calendar('gregory').locale('en').format("YYYY-MM-DD")}`)
+    }, [day])
 
     const goToPrevious = useCallback(() => {
         switch (mode) {
             case "day":
-                navigate(`/dashboard/calendar/${mode}/${dayjs(day).subtract(1, "day").format("YYYY-MM-DD")}`)
+                navigate(`/dashboard/calendar/${mode}/${dayjsLocal(dayjs(day)).subtract(1, "day").calendar('gregory').locale('en').format("YYYY-MM-DD")}`)
                 break
             case "week":
-                navigate(`/dashboard/calendar/${mode}/${dayjs(day).subtract(1, "week").format("YYYY-MM-DD")}`)
+                navigate(`/dashboard/calendar/${mode}/${dayjsLocal(dayjs(day)).subtract(1, "week").calendar('gregory').locale('en').format("YYYY-MM-DD")}`)
                 break
             case "month":
-                navigate(`/dashboard/calendar/${mode}/${dayjs(day).subtract(1, "month").format("YYYY-MM-DD")}`)
+                navigate(`/dashboard/calendar/${mode}/${dayjsLocal(dayjs(day)).subtract(1, "month").calendar('gregory').locale('en').format("YYYY-MM-DD")}`)
                 break
             case "schedule":
-                navigate(`/dashboard/calendar/${mode}/${dayjs(day).subtract(1, "month").format("YYYY-MM-DD")}`)
+                navigate(`/dashboard/calendar/${mode}/${dayjsLocal(dayjs(day)).subtract(1, "month").calendar('gregory').locale('en').format("YYYY-MM-DD")}`)
         }
     }, [day, mode])
 
     const goToNext = useCallback(() => {
         switch (mode) {
             case "day":
-                navigate(`/dashboard/calendar/${mode}/${dayjs(day).add(1, "day").format("YYYY-MM-DD")}`)
+                navigate(`/dashboard/calendar/${mode}/${dayjsLocal(dayjs(day)).add(1, "day").calendar('gregory').locale('en').format("YYYY-MM-DD")}`)
                 break
             case "week":
-                navigate(`/dashboard/calendar/${mode}/${dayjs(day).add(1, "week").format("YYYY-MM-DD")}`)
+                navigate(`/dashboard/calendar/${mode}/${dayjsLocal(dayjs(day)).add(1, "week").calendar('gregory').locale('en').format("YYYY-MM-DD")}`)
                 break
             case "month":
-                navigate(`/dashboard/calendar/${mode}/${dayjs(day).add(1, "month").format("YYYY-MM-DD")}`)
+                navigate(`/dashboard/calendar/${mode}/${dayjsLocal(dayjs(day)).add(1, "month").calendar('gregory').locale('en').format("YYYY-MM-DD")}`)
                 break
             case "schedule":
-                navigate(`/dashboard/calendar/${mode}/${dayjs(day).add(1, "month").format("YYYY-MM-DD")}`)
+                navigate(`/dashboard/calendar/${mode}/${dayjsLocal(dayjs(day)).add(1, "month").calendar('gregory').locale('en').format("YYYY-MM-DD")}`)
         }
     }, [day, mode])
-    console.log(mode)
+    // console.log(mode)
 
     return (
         <div className="app-header">
@@ -81,9 +82,7 @@ export const AppHeader = ({}: props) => {
                 {/*<span>icon</span>*/}
             </div>
             <div className="right-section">
-                <Tooltip title="search">
-                    <IconButton Icon={MagnifyingGlass} fill={fillOptions.link} enable={false} />
-                </Tooltip>
+                <SearchBar/>
             </div>
         </div>
     );

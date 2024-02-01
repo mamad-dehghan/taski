@@ -1,4 +1,4 @@
-import {createContext, CSSProperties, ReactNode, useEffect, useMemo, useState} from "react";
+import {createContext, CSSProperties, ReactNode, useEffect, useInsertionEffect, useMemo, useState} from "react";
 import classNames from "classnames";
 
 import "./typography.scss";
@@ -7,6 +7,7 @@ import "./palette.scss";
 import './index.scss'
 import {getCookie, setCookie} from "typescript-cookie";
 import {readProfile, updateProfile} from "../../utils/database/profile";
+import {useBeforeUnload} from "react-router-dom";
 
 export type themeT = {
     "--primary-hue": number;
@@ -64,6 +65,21 @@ export const ThemeProvider = ({children, modify = {}, forceDarkMode}: themeProvi
     useEffect(() => {
         setCookie("darkMode", darkMode, {expires: 365, path: "/"})
     }, [darkMode]);
+
+    useInsertionEffect(() => {
+        document.getElementsByClassName("header-theme-color")[0]
+           ?.setAttribute("content", darkMode
+                ? `hsl(${theme["--primary-hue"]}, 100%, 87%)`
+                : `hsl(${theme["--primary-hue"]}, 58%, 28%)`
+            )
+    }, [theme, darkMode]);
+    // useEffect(() => {
+    //     document.getElementsByClassName("header-theme-color")[0]
+    //         .setAttribute("content", darkMode
+    //             ? `hsl(${theme["--primary-hue"]}, 100%, 87%)`
+    //             : `hsl(${theme["--primary-hue"]}, 58%, 28%)`
+    //         )
+    // }, [theme, darkMode]);
     const setNewTheme = (newTheme: Partial<themeT>) => setTheme((prevState: themeT) => ({
         ...prevState,
         ...newTheme

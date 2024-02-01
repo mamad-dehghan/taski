@@ -1,16 +1,18 @@
 @use "../../providers/theme/palette";
+@use "../../providers/theme/elevation";
+@use "../../providers/theme/typography";
 
 .calendar-table {
   width: inherit;
   height: inherit;
   display: grid;
-  background-color: inherit;
+  background-color: hsl(var(--background));
   grid-template-areas: "corner top" "side table";
   //transition: all 1s;
 
   &.day-view {
     position: relative;
-    grid-template-rows: 84px 1fr;
+    grid-template-rows: fit-content(84px) 1fr;
     grid-template-columns: 72px 1fr;
 
     .calendar-table--days {
@@ -24,6 +26,8 @@
         }
 
         .calendar-table--days--task--wrapper {
+
+
           position: relative;
           display: grid;
           grid-template-rows: repeat(24, minmax(40px, calc(100% / 24)));
@@ -32,7 +36,7 @@
             position: absolute;
             left: 0;
             width: 100%;
-            background-color: hsl(var(--error-container));
+            //background-color: hsl(var(--error-container));
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -60,7 +64,7 @@
   }
 
   &.week-view {
-    grid-template-rows: 84px 1fr;
+    grid-template-rows: fit-content(84px) 1fr;
     grid-template-columns: 72px 1fr;
 
     .calendar-table--days {
@@ -82,7 +86,7 @@
             position: absolute;
             left: 0;
             width: 100%;
-            background-color: hsl(var(--error-container));
+            //background-color: hsl(var(--error-container));
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -243,6 +247,7 @@
           flex-direction: row;
           align-items: baseline;
           justify-content: space-around;
+          color: hsla(var(--on-background), 1);
         }
 
         .calendar-table--days--task--wrapper {
@@ -250,15 +255,17 @@
           grid-column: 2/ 3;
           display: grid;
           grid-template-rows: 1fr;
-          gap:8px;
+          gap: 8px;
           align-items: center;
+          padding-block: 6px;
 
           .calendar-table--days--hour-cell {
             grid-row: span 1;
             border: 1px solid green;
           }
-          .tt{
-            .content{
+
+          .tt {
+            .content {
               height: fit-content;
             }
           }
@@ -284,7 +291,7 @@
     position: sticky;
     top: 0;
     z-index: 2;
-    background-color: inherit;
+    background-color: hsl(var(--background));;
     display: grid;
 
     .calendar-table--top--cell {
@@ -292,7 +299,73 @@
       display: flex;
       align-items: center;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: flex-start;
+      gap: 20px;
+
+      .name {
+        color: hsla(var(--on-background), 1);
+      }
+
+      .calendar-table--top--cell--day-task-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        gap: 4px;
+        align-self: stretch;
+
+        &:empty {
+          display: none;
+        }
+
+
+        .content {
+          & > .tooltip-wrapper {
+            cursor: pointer;
+            //background-color: var(--category-color, red);
+            //padding-block: 4px;
+            //padding-inline: 1rem 0;
+            //border-radius: 4px;
+            border-radius: 4px;
+            margin-inline-start: 12px;
+            max-width: calc(100% - 1rem);
+            height: 100%;
+            overflow: hidden;
+
+            //padding: 2px;
+            .inside-of-content {
+              color: hsl(var(--on-primary-container));
+              @include elevation.elevation-2();
+              @include palette.state-layer(var(--on-primary-container));
+              //@include elevation.
+              //background-color: hsl(var(--primary-container));
+              //border-color: hsla(var(--category-color), 1);
+              //border-color: var(--category-color, red);
+              //border-style: solid;
+              //border-inline-width:1rem 2px ;
+              //border-block-width: 4px;
+              border-image: unset;
+              border-color: var(--category-color, var(--on-background));
+              border-style: solid;
+              border-block-width: 1px;
+              border-inline-width: 0.5rem 2px;
+
+
+              //height: calc(100% - 4px);
+              //width: calc(100% - 4px);
+              height: 100%;
+              width: 100%;
+              //border-radius: 6px;
+              border-radius: 4px 18px 18px 4px;
+              //margin: 2px;
+              padding: 0 4px;
+              font-family: monospace;
+              //padding: 2px;
+            }
+          }
+        }
+
+      }
     }
   }
 
@@ -301,23 +374,25 @@
     position: sticky;
     top: 0;
     z-index: 2;
-    background-color: inherit;
+    background-color: hsl(var(--background));;
   }
 
   .calendar-table--side {
     grid-area: side;
     display: grid;
-    background-color: inherit;
+    background-color: hsl(var(--background));;
     //grid-template-rows: repeat(24, 40px);
     grid-template-rows: repeat(24, minmax(40px, calc(100% / 24)));
     //add aspect ratio
     .calendar-table--side--hour-cell {
-      background-color: inherit;
+      background-color: hsl(var(--background));;
       grid-row: span 1;
       //border: 1px solid blue;
       border-inline-end: 1px solid hsl(var(--on-surface-variant));
-      .calendar-table--side--hour-cell-content{
-        background-color: inherit;
+
+      .calendar-table--side--hour-cell-content {
+        background-color: hsl(var(--background));
+        color: hsla(var(--on-background), 1);
         padding-inline: 4px;
         transform: translateY(50%);
         display: flex;
@@ -329,7 +404,7 @@
       }
 
       &:last-of-type {
-        .calendar-table--side--hour-cell-content{
+        .calendar-table--side--hour-cell-content {
           display: none;
         }
       }
@@ -361,12 +436,54 @@
           display: contents;
 
           .content {
-            cursor: pointer;
-            background-color: hsl(var(--primary-container));
-            color: hsl(var(--on-primary-container));
-            padding: 2px 4px;
-            border-radius: 4px;
-            @include palette.state-layer(var(--on-primary-container))
+            & > .tooltip-wrapper {
+              cursor: pointer;
+              //background-color: var(--category-color, red);
+              //padding-block: 4px;
+              //padding-inline: 1rem 0;
+              //border-radius: 4px;
+              border-radius: 4px;
+              margin-inline-start: 12px;
+              max-width: calc(100% - 1rem);
+              height: 100%;
+              overflow: hidden;
+
+              //padding: 2px;
+              .inside-of-content {
+                color: hsl(var(--on-primary-container));
+                @include elevation.elevation-2();
+                @include palette.state-layer(var(--on-primary-container));
+                //@include elevation.
+                //background-color: hsl(var(--primary-container));
+                //border-color: hsla(var(--category-color), 1);
+                //border-color: var(--category-color, red);
+                //border-style: solid;
+                //border-inline-width:1rem 2px ;
+                //border-block-width: 4px;
+                border-image: unset;
+                border-color: var(--category-color, var(--on-background));
+                border-style: solid;
+                border-block-width: 1px;
+                border-inline-width: 0.5rem 2px;
+                text-overflow: ellipsis;
+                overflow: hidden;
+
+
+                //height: calc(100% - 4px);
+                //width: calc(100% - 4px);
+                height: 100%;
+                width: 100%;
+                //border-radius: 6px;
+                border-radius: 4px 18px 18px 4px;
+                //margin: 2px;
+                padding: 0 4px;
+                font-family: monospace;
+                //padding: 2px;
+                &:is(.done){
+                  text-decoration: line-through hsla(var(--on-background), 0.5);
+                }
+              }
+            }
           }
 
           .other {
@@ -374,6 +491,84 @@
           }
         }
       }
+    }
+  }
+}
+
+.task-rich-tooltip {
+  @include elevation.elevation-4();
+  @include elevation.elevation-shadow-4();
+  //width: fit-content(60vw);
+  padding-inline: 2px;
+  padding-block: 2px;
+  border-radius: var(--radius-small);
+  //background-color: var(--category-color, var(--on-background));
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  .task-rich-tooltip--category {
+    //background-color: hsl(var(--background));
+    color: hsl(var(--on-background));
+    border-radius: inherit;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    padding-inline: 4px;
+    //align-self: center;
+    text-align: center;
+    //margin-block: 2px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    @include typography.titleSmall();
+
+
+    &:empty {
+      display: none;
+
+      & + .task-rich-tooltip--content {
+        border-top-right-radius: inherit;
+        border-top-left-radius: inherit;
+      }
+    }
+
+    &:not(:empty) {
+      &::after {
+        content: " ";
+        display: inline-block;
+        vertical-align: middle;
+        border-radius: var(--radius-full);
+        background-color: var(--category-color, var(--on-background));
+        width: 1rem;
+        height: 1rem;
+        aspect-ratio: 1;
+        margin-inline-start: 0.5rem;
+        //margin-bottom: 3px;
+      }
+    }
+  }
+
+  .task-rich-tooltip--content {
+    @include typography.bodyMedium();
+    background-color: hsl(var(--background));
+    color: hsl(var(--on-background));
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border-radius: inherit;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+    padding: 4px;
+
+    .task-rich-tooltip--title {
+      @include typography.ellipsisText();
+    }
+
+    .task-rich-tooltip--priority {
+    }
+
+    .task-rich-tooltip--end-time {
     }
   }
 }

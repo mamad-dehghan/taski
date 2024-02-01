@@ -11,11 +11,11 @@ type props = {
 
 export const Label = ({label, children, id}: props) => {
     return (
-        <label htmlFor={id}>
-                <span className="label">
+        <div className="label">
+                <label htmlFor={id}>
                     {label}
-                </span>
+                </label>
             {children}
-        </label>
+        </div>
     );
 }

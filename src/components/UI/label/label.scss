@@ -1,13 +1,13 @@
 @use "../../../providers/theme/typography";
 //@use "../../../providers/theme/palette";
 
-label {
+.label {
   display: inline-flex;
   justify-content : space-between;
   width : 100%;
   //transform : translateY(200px);
 
-  .label {
+  label {
     @include typography.bodyLarge();
   }
 
@@ -15,18 +15,18 @@ label {
   //&:not(:has(.input:disabled)) {
 
   &:not(:focus-within) {
-    .label {
+    label {
       color : hsl(var(--on-surface-variant));
     }
   }
 
   &:focus-within {
-    .label {
+    label {
       color : hsl(var(--primary));
     }
 
     &:has(.input--wrapper[data-has-error="true"]) {
-      .label{
+      label{
       color : hsl(var(--error));
       }
     }
@@ -36,8 +36,13 @@ label {
   //}
 
   &:has(.input:disabled) {
-    .label {
+    label {
       color : hsla(var(--on-surface), 38%);
+    }
+  }
+  &:not(:has(.input:disabled)){
+    label{
+      cursor: pointer;
     }
   }
 }
