@@ -1,10 +1,10 @@
-import React, {ChangeEvent, useCallback, useEffect, useMemo, useState} from 'react';
+import React, {ChangeEvent, useCallback, useEffect, useMemo} from 'react';
 import {X} from "@phosphor-icons/react";
 import {fillOptions} from "../../providers/theme/types";
 import {Input, inputT} from "../UI/input/Input";
 import {FilterChip} from "../UI/chip/Chip";
 
-type tagInputProps = Omit<inputT, "onKeyDown"| "onChange"| "value"> & {
+type tagInputProps = Omit<inputT, "onKeyDown" | "onChange" | "value"> & {
     onChange: (value: string) => void,
     value: string,
 }
@@ -21,6 +21,7 @@ export const TagInput = ({onChange, value, ...others}: tagInputProps) => {
         , [value])
 
     const handleChange = useCallback((e: ChangeEvent) => {
+        // @ts-ignore
         const i: string = [...tags, e.target.value].join(',').replace(' ', ',')
         onChange(i)
     }, [tags])
@@ -29,6 +30,7 @@ export const TagInput = ({onChange, value, ...others}: tagInputProps) => {
     //     onChange(inputValue)
     // }, [onChange, inputValue]);
 
+    // @ts-ignore
     const onKeyDown = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
         if (e.target.value === "" && e.code === "Backspace") {
             e.preventDefault();
