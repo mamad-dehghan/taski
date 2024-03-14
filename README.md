@@ -8,7 +8,7 @@ Fully implemented UI by SCSS & costumizeable
 
 ### App
 
-![week mode](https://ik.imagekit.io/zdldazk95/taski/Group%2049_QBWs69uJa.png?updatedAt=1709930022339)
+![week mode](https://ik.imagekit.io/zdldazk95/taski/Group%2053_1nYZCZ-Bu.png?updatedAt=1710415741598)
 
 ![month mode](https://ik.imagekit.io/zdldazk95/taski/Group%2052_2aYYlriCr.png?updatedAt=1709930020800)
 
