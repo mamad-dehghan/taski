@@ -12,14 +12,8 @@ import {Calendar, FadersHorizontal, Gear, Moon, Rows, SpotifyLogo, SunDim, UserC
 
 type props = {}
 
-const links = [{
-    path: "dashboard/month"
-}]
-
 export enum panels {
     calendar = "calendar",
-    schedule = "schedule",
-    preference = "preference",
     categories = "categories"
 }
 
@@ -106,23 +100,6 @@ export const AppSidebar = ({}: props) => {
                             onClick={onsideItemClick(panels.categories)}
                             enable={activePanel==="categories"} />
                     </Tooltip>
-                    {/*<Tooltip title="schedule">*/}
-                    {/*<Tooltip title="components">*/}
-                    {/*    <IconButton*/}
-                    {/*        dataFocused={activePanel === "schedule"}*/}
-                    {/*        Icon={Rows}*/}
-                    {/*        fill={fillOptions.link}*/}
-                    {/*        onClick={onsideItemClick(panels.schedule)}*/}
-                    {/*        enable={false} />*/}
-                    {/*</Tooltip>*/}
-                    {/*<Tooltip title="preference">*/}
-                    {/*    <IconButton*/}
-                    {/*        dataFocused={activePanel === "preference"}*/}
-                    {/*        Icon={FadersHorizontal}*/}
-                    {/*        fill={fillOptions.link}*/}
-                    {/*        onClick={onsideItemClick(panels.preference)}*/}
-                    {/*        enable={false} />*/}
-                    {/*</Tooltip>*/}
                 </div>
                 <div className="bottom-section">
                     <Tooltip title="calendar">

@@ -2,13 +2,10 @@ import "./acell.scss"
 import classNames from "classnames";
 import {
     CSSProperties,
-    forwardRef,
     memo,
     ReactNode,
     useContext,
-    useDeferredValue,
     useEffect,
-    useImperativeHandle,
     useMemo,
     useRef,
     useState
@@ -23,10 +20,9 @@ import {fillOptions} from "../../providers/theme/types";
 import {TaskModel} from "../../utils/dataModels/task";
 import dayjs, {Dayjs} from "dayjs";
 import {convertToTaskModel, readDayTasksFromDatabase} from "../../utils/database/task";
-import {ShowTaskDialog} from "../dialogs/ShowTask";
 import {useLiveQuery} from "dexie-react-hooks";
 import {CalendarContext} from "../../providers/calendarContext/calendarContext";
-import {EditTodoDialog} from "../dialogs/EditTask";
+import {TaskDialogHandle, TaskDialogHost} from "../dialogs/TaskDialogHost";
 import {Tooltip} from "../UI/tooltip/Tooltip";
 import {readCategoryById} from "../../utils/database/category";
 import {CategoryModel} from "../../utils/dataModels/category";
@@ -80,82 +76,81 @@ export const ACell = ({theDay, showModel}: props) => {
         }
     }, [showModel, dayModel, weekObject, monthObject])
 
-    const showModalState = useRef<handleEditType>(null)
+    const taskDialog = useRef<TaskDialogHandle>(null)
 
     return (
         <>
-            <ShowModal ref={showModalState} />
-            {
-                showModalState.current
-                    ? <div className={classNames(
-                        "calendar-table",
-                        `${showModel}-view`
-                    )}>
-                        <div className="calendar-table--top">
-                            {
-                                headerDays.map((_t, i) =>
-                                    <div key={`top-${i}`}
-                                         className={classNames(
-                                             "calendar-table--top--cell",
-                                             {
-                                                 // "selected-day": _t.toDateString() === theDay.toDateString(),
-                                                 // "today": _t.toDateString() === new Date().toDateString(),
-                                             }
-                                         )}>
-                                        <h6 className="name">{_t.format("ddd")}</h6>
-                                        <Button
-                                            onClick={() => navigate(`/dashboard/calendar/day/${dayjs(_t).calendar("gregory").locale('en').format("YYYY-MM-DD")}`)}
-                                            fill={_t.format("YYYY-MM-DD") === dayjsLocal(dayjs()).format("YYYY-MM-DD") ? fillOptions.outline : fillOptions.link}
-                                            round className="number">{_t.get('date')}</Button>
-                                        {
-                                            (showModel === CalendarShowModel.day || showModel === CalendarShowModel.week) ?
-                                                <div className="calendar-table--top--cell--day-task-wrapper">
-                                                    {
-                                                        dayTask[i].filter(task => task.isAllDay).map(task =>
-                                                            <SingleTodo
-                                                                key={task.id}
-                                                                task={task}
-                                                                view={showModel}
-                                                                openShowModal={() => showModalState.current!.setShowModalState(task)}
-                                                            />
-                                                        )
-                                                    }
-                                                </div>
-                                                : <></>
-                                        }
-                                    </div>
-                                )
-                            }
-                        </div>
-                        <div className="calendar-table--corner" />
-                        <div className="calendar-table--side">
-                            {
-                                Array.from({length: 24}).map((_t, i) => (
-                                    <div key={i}
-                                         className="calendar-table--side--hour-cell">
+            <TaskDialogHost ref={taskDialog} />
+            <div className={classNames(
+                "calendar-table",
+                `${showModel}-view`
+            )}>
+                <div className="calendar-table--top">
+                    {
+                        headerDays.map((_t, i) =>
+                            <div key={`top-${i}`}
+                                 className={classNames(
+                                     "calendar-table--top--cell",
+                                     {
+                                         // "selected-day": _t.toDateString() === theDay.toDateString(),
+                                         // "today": _t.toDateString() === new Date().toDateString(),
+                                     }
+                                 )}>
+                                <h6 className="name">{_t.format("ddd")}</h6>
+                                <Button
+                                    onClick={() => navigate(`/dashboard/calendar/day/${dayjs(_t).calendar("gregory").locale('en').format("YYYY-MM-DD")}`)}
+                                    fill={_t.format("YYYY-MM-DD") === dayjsLocal(dayjs()).format("YYYY-MM-DD") ? fillOptions.outline : fillOptions.link}
+                                    round className="number">{_t.get('date')}</Button>
+                                {
+                                    (showModel === CalendarShowModel.day || showModel === CalendarShowModel.week) ?
+                                        <div className="calendar-table--top--cell--day-task-wrapper">
+                                            {
+                                                dayTask[i].filter(task => task.isAllDay).map(task =>
+                                                    <SingleTodo
+                                                        key={task.id}
+                                                        task={task}
+                                                        view={showModel}
+                                                        openShowModal={() => taskDialog.current?.openTask(task)}
+                                                    />
+                                                )
+                                            }
+                                        </div>
+                                        : <></>
+                                }
+                            </div>
+                        )
+                    }
+                </div>
+                <div className="calendar-table--corner" />
+                <div className="calendar-table--side">
+                    {
+                        Array.from({length: 24}).map((_t, i) => (
+                            <div key={i}
+                                 className="calendar-table--side--hour-cell">
                             <span className="calendar-table--side--hour-cell-content">
                             {(i % 12) + 1} {i < 11 ? "AM" : "PM"}
                             </span>
-                                    </div>
-                                ))
-                            }
-                        </div>
-                        <div className="calendar-table--days">
-                            {
-                                daysList.map((item, index) => (
-                                    <OneDay key={item.toJSON()}
-                                            tasks={dayTask[index]}
-                                            view={showModel}
-                                            day={item}
-                                            thisMonth={true}
-                                            setShowModalState={showModalState.current!.setShowModalState}
-                                    />
-                                ))
-                            }
-                        </div>
-                    </div>
-                    : undefined
-            }
+                            </div>
+                        ))
+                    }
+                </div>
+                <div className="calendar-table--days">
+                    {
+                        daysList.map((item, index) => (
+                            <OneDay key={item.toJSON()}
+                                    tasks={dayTask[index]}
+                                    view={showModel}
+                                    day={item}
+                                    thisMonth={true}
+                                    setShowModalState={(task) => {
+                                        if (task)
+                                            taskDialog.current?.openTask(task)
+                                    }}
+                            />
+                        ))
+                    }
+                </div>
+            </div>
         </>
     )
 }
@@ -282,54 +277,6 @@ const SingleTodo = memo(({task, view, openShowModal}: singleTodoProps) => {
         </span>
     )
 })
-type handleEditType = {
-//     // showTaskElement: JSX.Element,
-    setShowModalState: (task: TaskModel | undefined) => void,
-}
-
-const ShowModal = memo(forwardRef<handleEditType, {}>(({}, ref) => {
-    const [task, setShowModalState] = useState<TaskModel | undefined>(undefined)
-    const [showOpenState, setShowOpenState] = useState<boolean>(false)
-    const [editOpenState, setEditOpenState] = useState<boolean>(false)
-    useImperativeHandle(ref, () => ({
-        setShowModalState: (task: TaskModel | undefined) => {
-            setShowModalState(task)
-            setEditOpenState(false)
-            setTimeout(
-                () => setShowOpenState(true)
-                , 10
-            )
-        }
-    }), [])
-    const deferShowOpenState = useDeferredValue(showOpenState)
-    if (!task && !deferShowOpenState)
-        return <></>
-    return (
-        <>
-            <ShowTaskDialog
-                open={showOpenState}
-                task={task}
-                onClose={() => {
-                    setShowOpenState(false)
-                }}
-                onOpenEditDialog={() => {
-                    setShowOpenState(false)
-                    setEditOpenState(true)
-                }}
-            />
-            <EditTodoDialog
-                key={task?.id}
-                open={editOpenState}
-                onClose={() => {
-                    // setShowModalState(undefined)
-                    setEditOpenState(false)
-                }}
-                task={task!}
-            />
-        </>
-    )
-}))
-
 type taskTooltipType = { category?: CategoryModel, task: TaskModel, timeFormatted: string }
 const TaskRichTooltip = ({category, task, timeFormatted}: taskTooltipType) => {
     return (

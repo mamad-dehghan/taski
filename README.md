@@ -4,6 +4,18 @@ Using Indexed DB for saving user's data
 
 Fully implemented UI by SCSS & costumizeable
 
+## Development
+
+This project uses Bun.
+
+```bash
+bun install
+bun run dev
+bun run build
+```
+
+The dev server runs on [http://localhost:9119](http://localhost:9119).
+
 ## Images
 
 ### App

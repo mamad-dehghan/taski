@@ -18,6 +18,7 @@ import {TagInput} from "../tagInput/TagInput";
 import {DateAndTimePicker} from "../DateAndTimePicker/DateAndTimePicker";
 import {Shrink} from "../UI/Shrink/Shrink";
 import {Switch} from "../UI/switch/Switch";
+import {useToast} from "../../utils/hooks/useToast";
 
 type props = {
     // id: string,
@@ -29,17 +30,23 @@ type props = {
 
 export const EditTodoDialog = ({ open, task, onClose}: props) => {
     const categories = useLiveQuery(readAllCategories,[open])??[]
-    // console.log(categories)
+    const {toast} = useToast()
     const id = useId()
-    // console.log(categories)
     const form = useFormik<TaskModel>({
         initialValues: task,
         validationSchema: object().shape(taskValidations),
-        onSubmit: values => {
-            updateTaskInDatabase(values)
-                .then(console.log)
-                .catch(console.log)
-                .finally(onClose)
+        onSubmit: async values => {
+            try {
+                await updateTaskInDatabase(values)
+                toast(`edit-task-${values.id}`, "Task updated.", colorOptions.success)
+                onClose()
+            } catch (error) {
+                toast(
+                    `edit-task-error-${values.id}`,
+                    error instanceof Error ? error.message : "Could not update task.",
+                    colorOptions.error
+                )
+            }
         }
     })
 

@@ -24,6 +24,9 @@ export const convertToTaskModel = (
 }
 
 export const deleteTaskInDatabase = async (id: number): Promise<number> => {
+    const task = await db.tasks.get(id)
+    if (!task)
+        throw new Error("Task not found.")
     await db.tasks.delete(id)
     return id
 };
@@ -39,8 +42,16 @@ export const createTaskInDatabase = async (task: Omit<TaskModel, "id">): Promise
 
 export const updateTaskInDatabase = async ({id, ...task}: TaskModel): Promise<TaskModel> => {
     const convertedTask = convertToDexieTaskModel(task)
-    db.tasks.update(id, convertedTask).then(res => res)
+    const updated = await db.tasks.update(id, convertedTask)
+    if (!updated)
+        throw new Error("Task not found.")
     return {id, ...task}
+}
+
+export const updateTaskDoneInDatabase = async (id: number, isDone: boolean): Promise<void> => {
+    const updated = await db.tasks.update(id, {isDone})
+    if (!updated)
+        throw new Error("Task not found.")
 }
 
 export const readAllTaskFromDatabase = async (): Promise<DexieTaskModel[]> => {
