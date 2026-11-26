@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react-swc'
 export default defineConfig({
     server: {
         port: 9119,
-        open: '/dashboard/setting',
+        open: '/',
         // https:true
     },
     esbuild: {
